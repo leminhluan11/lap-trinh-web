@@ -1,0 +1,18 @@
+[Table("ProductPromotions")]
+public class ProductPromotion
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    public int ProductId { get; set; }
+
+    [Required]
+    public int PromotionId { get; set; }
+
+    [ForeignKey(nameof(ProductId))]
+    public virtual Product Product { get; set; } = null!;
+
+    [ForeignKey(nameof(PromotionId))]
+    public virtual Promotion Promotion { get; set; } = null!;
+}
