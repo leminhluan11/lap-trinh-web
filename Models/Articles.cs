@@ -1,40 +1,31 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+namespace FashionEcommerce.Models;
 
-namespace YourProjectName.Domain.Entities
+[Table("Articles")]
+public class Article
 {
-    public class PhieuGiamGia
-    {
-        [Key]
-        public int MaVoucher { get; set; }
+    [Key]
+    public int Id { get; set; }
 
-        [StringLength(50)]
-        [Index(IsUnique = true)]
-        public string? MaCode { get; set; }
+    [Required, MaxLength(255)]
+    public string Title { get; set; } = null!;
 
-        [StringLength(50)]
-        public string? LoaiGiamGia { get; set; }
+    [Required, MaxLength(255)]
+    public string Slug { get; set; } = null!;
 
-        [Column(TypeName = "decimal(10,2)")]
-        public decimal? GiaTriGiam { get; set; }
+    [MaxLength(500)]
+    public string? Summary { get; set; }
 
-        [Column(TypeName = "decimal(10,2)")]
-        public decimal? GiaTriDonHangToiThieu { get; set; }
+    public string? Content { get; set; }
 
-        [Column(TypeName = "decimal(10,2)")]
-        public decimal? GiaTriGiamToiDa { get; set; }
+    [MaxLength(500)]
+    public string? Thumbnail { get; set; }
 
-        public DateTime? NgayBatDau { get; set; }
-        public DateTime? NgayKetThuc { get; set; }
+    public int CategoryId { get; set; }
 
-        public int? GioiHanSuDung { get; set; }
-        public int? SoLanDaDung { get; set; }
+    public bool IsPublished { get; set; } = false;
 
-        [StringLength(50)]
-        public string? TrangThai { get; set; }
+    public DateTime? PublishedAt { get; set; }
 
-        public virtual ICollection<DonHang> DonHangs { get; set; } = new List<DonHang>();
-    }
+    [ForeignKey(nameof(CategoryId))]
+    public virtual ArticleCategory Category { get; set; } = null!;
 }

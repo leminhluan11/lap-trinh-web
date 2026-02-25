@@ -1,25 +1,22 @@
+namespace FashionEcommerce.Models;
+
 [Table("Coupons")]
 public class Coupon
 {
     [Key]
     public int Id { get; set; }
 
-    [Required]
-    [StringLength(50)]
-    public string Code { get; set; } = string.Empty;
+    [Required, MaxLength(50)]
+    public string Code { get; set; } = null!;
 
-    [Required]
     public int UserId { get; set; }
-
-    [Required]
     public int PromotionId { get; set; }
 
-    public bool? IsUsed { get; set; }
+    public bool IsUsed { get; set; } = false;
 
-    [Required]
     public DateTime ExpiryDate { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     [ForeignKey(nameof(UserId))]
     public virtual User User { get; set; } = null!;

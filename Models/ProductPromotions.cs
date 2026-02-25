@@ -1,13 +1,12 @@
+namespace FashionEcommerce.Models;
+
 [Table("ProductPromotions")]
 public class ProductPromotion
 {
     [Key]
     public int Id { get; set; }
 
-    [Required]
     public int ProductId { get; set; }
-
-    [Required]
     public int PromotionId { get; set; }
 
     [ForeignKey(nameof(ProductId))]

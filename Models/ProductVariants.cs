@@ -1,23 +1,19 @@
+namespace FashionEcommerce.Models;
+
 [Table("ProductVariants")]
 public class ProductVariant
 {
     [Key]
     public int Id { get; set; }
 
-    [Required]
     public int ProductId { get; set; }
-
-    [Required]
     public int ColorId { get; set; }
-
-    [Required]
     public int SizeId { get; set; }
 
-    [Required]
-    [StringLength(50)]
-    public string Sku { get; set; } = string.Empty;
+    [Required, MaxLength(50)]
+    public string Sku { get; set; } = null!;
 
-    public int? Quantity { get; set; }
+    public int Quantity { get; set; } = 0;
 
     [Column(TypeName = "decimal(18,2)")]
     public decimal? PriceModifier { get; set; }

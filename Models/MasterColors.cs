@@ -1,16 +1,16 @@
+namespace FashionEcommerce.Models;
+
 [Table("MasterColors")]
 public class MasterColor
 {
     [Key]
     public int Id { get; set; }
 
-    [Required]
-    [StringLength(50)]
-    public string Name { get; set; } = string.Empty;
+    [Required, MaxLength(50)]
+    public string Name { get; set; } = null!;
 
-    [Required]
-    [StringLength(10)]
-    public string HexCode { get; set; } = string.Empty;
+    [Required, MaxLength(10)]
+    public string HexCode { get; set; } = null!;
 
-    public virtual ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
+    public virtual ICollection<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
 }

@@ -1,32 +1,33 @@
-[Table("Articles")]
-public class Article
+namespace FashionEcommerce.Models;
+
+[Table("UserAddresses")]
+public class UserAddress
 {
     [Key]
     public int Id { get; set; }
 
-    [Required]
-    [StringLength(255)]
-    public string Title { get; set; } = string.Empty;
+    public int UserId { get; set; }
 
-    [Required]
-    [StringLength(255)]
-    public string Slug { get; set; } = string.Empty;
+    [Required, MaxLength(100)]
+    public string ContactName { get; set; } = null!;
 
-    [StringLength(500)]
-    public string? Summary { get; set; }
+    [Required, MaxLength(15)]
+    public string ContactPhone { get; set; } = null!;
 
-    public string? Content { get; set; }
+    [Required, MaxLength(255)]
+    public string AddressLine { get; set; } = null!;
 
-    [StringLength(500)]
-    public string? Thumbnail { get; set; }
+    [Required, MaxLength(50)]
+    public string Province { get; set; } = null!;
 
-    [Required]
-    public int CategoryId { get; set; }
+    [Required, MaxLength(50)]
+    public string District { get; set; } = null!;
 
-    public bool? IsPublished { get; set; }
+    [Required, MaxLength(50)]
+    public string Ward { get; set; } = null!;
 
-    public DateTime? PublishedAt { get; set; }
+    public bool IsDefault { get; set; } = false;
 
-    [ForeignKey(nameof(CategoryId))]
-    public virtual ArticleCategory Category { get; set; } = null!;
+    [ForeignKey(nameof(UserId))]
+    public virtual User User { get; set; } = null!;
 }

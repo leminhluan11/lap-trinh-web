@@ -1,26 +1,25 @@
+namespace FashionEcommerce.Models;
+
 [Table("Notifications")]
 public class Notification
 {
     [Key]
     public int Id { get; set; }
 
-    [Required]
     public int UserId { get; set; }
 
-    [Required]
-    [StringLength(200)]
-    public string Title { get; set; } = string.Empty;
+    [Required, MaxLength(200)]
+    public string Title { get; set; } = null!;
 
-    [Required]
-    [StringLength(500)]
-    public string Message { get; set; } = string.Empty;
+    [Required, MaxLength(500)]
+    public string Message { get; set; } = null!;
 
-    public bool? IsRead { get; set; }
+    public bool IsRead { get; set; } = false;
 
-    [StringLength(50)]
+    [MaxLength(50)]
     public string? Type { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     [ForeignKey(nameof(UserId))]
     public virtual User User { get; set; } = null!;

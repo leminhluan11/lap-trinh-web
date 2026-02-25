@@ -1,20 +1,20 @@
+namespace FashionEcommerce.Models;
+
 [Table("Categories")]
 public class Category
 {
     [Key]
     public int Id { get; set; }
 
-    [Required]
-    [StringLength(100)]
-    public string Name { get; set; } = string.Empty;
+    [Required, MaxLength(100)]
+    public string Name { get; set; } = null!;
 
-    [Required]
-    [StringLength(100)]
-    public string Slug { get; set; } = string.Empty;
+    [Required, MaxLength(100)]
+    public string Slug { get; set; } = null!;
 
     public int? ParentId { get; set; }
 
-    public bool? IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 
     [ForeignKey(nameof(ParentId))]
     public virtual Category? Parent { get; set; }

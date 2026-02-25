@@ -1,24 +1,23 @@
+namespace FashionEcommerce.Models;
+
 [Table("OrderStatusHistory")]
 public class OrderStatusHistory
 {
     [Key]
     public int Id { get; set; }
 
-    [Required]
     public int OrderId { get; set; }
 
     public int? PreviousStatus { get; set; }
-
-    [Required]
     public int NewStatus { get; set; }
 
-    [StringLength(255)]
+    [MaxLength(255)]
     public string? Note { get; set; }
 
-    [StringLength(100)]
+    [MaxLength(100)]
     public string? UpdatedBy { get; set; }
 
-    public DateTime? Timestamp { get; set; }
+    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
     [ForeignKey(nameof(OrderId))]
     public virtual Order Order { get; set; } = null!;
