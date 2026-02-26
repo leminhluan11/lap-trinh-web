@@ -1,0 +1,210 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using FashionEcommerce.Data;
+using FashionEcommerce.Models;
+
+namespace FashionEcommerce.Controllers
+{
+    [ApiController]
+    [Route("api/admin/products")]
+    public class ProductsController : ControllerBase
+    {
+        private readonly FashionEcommerceDbContext _context;
+
+        public ProductsController(FashionEcommerceDbContext context)
+        {
+            _context = context;
+        }
+
+        /// <summary>
+        /// GET /api/admin/products - Danh sách sản phẩm
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<object>>> GetProducts()
+        {
+            var products = await _context.Products
+                .Include(p => p.Category)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.Name,
+                    p.Slug,
+                    p.Price,
+                    p.Description,
+                    p.Thumbnail,
+                    p.IsActive,
+                    CategoryId = p.CategoryId,
+                    CategoryName = p.Category.Name
+                })
+                .ToListAsync();
+
+            return Ok(products);
+        }
+
+        /// <summary>
+        /// POST /api/admin/products - Tạo mới sản phẩm
+        /// </summary>
+        [HttpPost]
+        public async Task<ActionResult<object>> CreateProduct([FromBody] CreateProductRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Slug))
+                return BadRequest(new { message = "Name và Slug không được để trống" });
+
+            // Kiểm tra slug đã tồn tại
+            var existingProduct = await _context.Products.FirstOrDefaultAsync(p => p.Slug == request.Slug);
+            if (existingProduct != null)
+                return BadRequest(new { message = "Slug đã tồn tại" });
+
+            // Kiểm tra category có tồn tại
+            var category = await _context.Categories.FindAsync(request.CategoryId);
+            if (category == null)
+                return BadRequest(new { message = "Danh mục sản phẩm không tồn tại" });
+
+            var product = new Product
+            {
+                Name = request.Name,
+                Slug = request.Slug,
+                Description = request.Description,
+                Price = request.Price,
+                CategoryId = request.CategoryId,
+                Thumbnail = request.Thumbnail,
+                IsActive = request.IsActive ?? true
+            };
+
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, new
+            {
+                product.Id,
+                product.Name,
+                product.Slug,
+                product.Price,
+                product.IsActive
+            });
+        }
+
+        /// <summary>
+        /// GET /api/admin/products/{id} - Chi tiết sản phẩm
+        /// </summary>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<object>> GetProductById(int id)
+        {
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Images)
+                .Include(p => p.Variants)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+                return NotFound(new { message = "Sản phẩm không tồn tại" });
+
+            return Ok(new
+            {
+                product.Id,
+                product.Name,
+                product.Slug,
+                product.Description,
+                product.Price,
+                product.Thumbnail,
+                product.IsActive,
+                Category = new
+                {
+                    product.Category.Id,
+                    product.Category.Name
+                },
+                Images = product.Images,
+                Variants = product.Variants
+            });
+        }
+
+        /// <summary>
+        /// PUT /api/admin/products/{id} - Cập nhật sản phẩm
+        /// </summary>
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateProduct(int id, [FromBody] UpdateProductRequest request)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+                return NotFound(new { message = "Sản phẩm không tồn tại" });
+
+            // Nếu slug được thay đổi, kiểm tra xem có trùng không
+            if (!string.IsNullOrEmpty(request.Slug) && request.Slug != product.Slug)
+            {
+                var existingProduct = await _context.Products.FirstOrDefaultAsync(p => p.Slug == request.Slug && p.Id != id);
+                if (existingProduct != null)
+                    return BadRequest(new { message = "Slug đã tồn tại" });
+
+                product.Slug = request.Slug;
+            }
+
+            // Nếu categoryId được thay đổi, kiểm tra category có tồn tại
+            if (request.CategoryId.HasValue && request.CategoryId.Value != product.CategoryId)
+            {
+                var category = await _context.Categories.FindAsync(request.CategoryId.Value);
+                if (category == null)
+                    return BadRequest(new { message = "Danh mục sản phẩm không tồn tại" });
+
+                product.CategoryId = request.CategoryId.Value;
+            }
+
+            if (!string.IsNullOrEmpty(request.Name))
+                product.Name = request.Name;
+
+            if (request.Price.HasValue)
+                product.Price = request.Price.Value;
+
+            if (!string.IsNullOrEmpty(request.Description))
+                product.Description = request.Description;
+
+            if (!string.IsNullOrEmpty(request.Thumbnail))
+                product.Thumbnail = request.Thumbnail;
+
+            if (request.IsActive.HasValue)
+                product.IsActive = request.IsActive.Value;
+
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Cập nhật sản phẩm thành công", product.Id });
+        }
+
+        /// <summary>
+        /// DELETE /api/admin/products/{id} - Xóa sản phẩm
+        /// </summary>
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+                return NotFound(new { message = "Sản phẩm không tồn tại" });
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Xóa sản phẩm thành công" });
+        }
+    }
+
+    public class CreateProductRequest
+    {
+        public string Name { get; set; } = null!;
+        public string Slug { get; set; } = null!;
+        public string? Description { get; set; }
+        public decimal Price { get; set; }
+        public int CategoryId { get; set; }
+        public string? Thumbnail { get; set; }
+        public bool? IsActive { get; set; }
+    }
+
+    public class UpdateProductRequest
+    {
+        public string? Name { get; set; }
+        public string? Slug { get; set; }
+        public string? Description { get; set; }
+        public decimal? Price { get; set; }
+        public int? CategoryId { get; set; }
+        public string? Thumbnail { get; set; }
+        public bool? IsActive { get; set; }
+    }
+}
