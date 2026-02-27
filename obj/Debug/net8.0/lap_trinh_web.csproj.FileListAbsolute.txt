@@ -1,0 +1,9 @@
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.AssemblyReference.cache
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.GeneratedMSBuildEditorConfig.editorconfig
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.AssemblyInfoInputs.cache
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.AssemblyInfo.cs
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.CoreCompileInputs.cache
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cs
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cache
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.sourcelink.json
