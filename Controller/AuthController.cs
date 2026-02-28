@@ -13,9 +13,9 @@ namespace FashionEcommerce.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IJwtService _jwt;
-        private readonly ApDbContext _context;
+        private readonly FashionEcommerceDbContext _context;
 
-        public AuthController(IJwtService jwt, ApDbContext context)
+        public AuthController(IJwtService jwt, FashionEcommerceDbContext context)
         {
             _jwt = jwt;
             _context = context;

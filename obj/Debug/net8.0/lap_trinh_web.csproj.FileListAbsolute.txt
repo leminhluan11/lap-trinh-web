@@ -7,3 +7,11 @@ D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.Core
 D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cs
 D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cache
 D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.sourcelink.json
+C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.AssemblyReference.cache
+C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.AssemblyInfoInputs.cache
+C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.AssemblyInfo.cs
+C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.CoreCompileInputs.cache
+C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.sourcelink.json
