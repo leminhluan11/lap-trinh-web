@@ -54,7 +54,7 @@ namespace FashionEcommerce.Controllers
         {
             var order = await _context.Orders
                 .Include(o => o.User)
-                .Include(o => o.OrderDetails)
+                .Include(o => o.Details)
                 .FirstOrDefaultAsync(o => o.Id == id);
 
             if (order == null)
@@ -83,7 +83,7 @@ namespace FashionEcommerce.Controllers
                     order.User.FullName,
                     order.User.PhoneNumber
                 } : null,
-                OrderDetails = order.OrderDetails
+                OrderDetails = order.Details
             });
         }
 
@@ -108,10 +108,10 @@ namespace FashionEcommerce.Controllers
             var statusHistory = new OrderStatusHistory
             {
                 OrderId = id,
-                OldStatus = oldStatus,
+                PreviousStatus = oldStatus,
                 NewStatus = request.Status,
-                ChangedAt = DateTime.UtcNow,
-                Reason = request.Reason
+                Timestamp = DateTime.UtcNow,
+                Note = request.Reason
             };
             _context.OrderStatusHistories.Add(statusHistory);
 

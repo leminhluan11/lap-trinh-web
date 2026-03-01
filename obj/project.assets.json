@@ -2410,19 +2410,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lemin\\.nuget\\packages\\": {}
+    "C:\\Users\\nguyenduchieu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lemin\\lap-trinh-web\\lap_trinh_web.csproj",
+      "projectUniqueName": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\lap_trinh_web.csproj",
       "projectName": "lap_trinh_web",
-      "projectPath": "C:\\Users\\lemin\\lap-trinh-web\\lap_trinh_web.csproj",
-      "packagesPath": "C:\\Users\\lemin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lemin\\lap-trinh-web\\obj\\",
+      "projectPath": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\lap_trinh_web.csproj",
+      "packagesPath": "C:\\Users\\nguyenduchieu\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\lemin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\nguyenduchieu\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2503,7 +2503,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
