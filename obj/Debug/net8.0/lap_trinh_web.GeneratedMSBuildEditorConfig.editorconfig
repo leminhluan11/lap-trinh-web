@@ -9,21 +9,13 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = lap_trinh_web
 build_property.RootNamespace = lap_trinh_web
-<<<<<<< HEAD
 build_property.ProjectDir = D:\Back-end_CuoiKy\Nam3\lap-trinh-web\
-=======
-build_property.ProjectDir = C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\
->>>>>>> NDHieu
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-<<<<<<< HEAD
 build_property.MSBuildProjectDirectory = D:\Back-end_CuoiKy\Nam3\lap-trinh-web
-=======
-build_property.MSBuildProjectDirectory = C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web
->>>>>>> NDHieu
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 

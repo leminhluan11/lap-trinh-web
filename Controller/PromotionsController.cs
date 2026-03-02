@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FashionEcommerce.Data;
 using FashionEcommerce.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FashionEcommerce.Controllers
 {
@@ -19,6 +20,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// GET /api/admin/promotions - Danh sách chương trình khuyến mãi
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<object>>> GetPromotions()
         {
@@ -42,6 +44,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// POST /api/admin/promotions - Tạo chương trình khuyến mãi
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<object>> CreatePromotion([FromBody] CreatePromotionRequest request)
         {
@@ -81,6 +84,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// GET /api/admin/promotions/{id} - Chi tiết chương trình khuyến mãi
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<object>> GetPromotionById(int id)
         {
@@ -110,6 +114,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// PUT /api/admin/promotions/{id} - Cập nhật chương trình khuyến mãi
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdatePromotion(int id, [FromBody] UpdatePromotionRequest request)
         {
@@ -151,6 +156,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// POST /api/admin/coupons/generate - Tạo voucher
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpPost("coupons/generate")]
         public async Task<ActionResult<object>> GenerateCoupons([FromBody] GenerateCouponsRequest request)
         {

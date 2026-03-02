@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FashionEcommerce.Data;
 using FashionEcommerce.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FashionEcommerce.Controllers
 {
@@ -19,6 +20,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// GET /api/admin/products - Danh sách sản phẩm
         /// </summary>
+        [Authorize(Roles = "Admin,Customer")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<object>>> GetProducts()
         {
@@ -44,6 +46,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// POST /api/admin/products - Tạo mới sản phẩm
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<object>> CreateProduct([FromBody] CreateProductRequest request)
         {
@@ -87,6 +90,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// GET /api/admin/products/{id} - Chi tiết sản phẩm
         /// </summary>
+        [Authorize(Roles = "Admin,Customer")]
         [HttpGet("{id}")]
         public async Task<ActionResult<object>> GetProductById(int id)
         {
@@ -121,6 +125,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// PUT /api/admin/products/{id} - Cập nhật sản phẩm
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateProduct(int id, [FromBody] UpdateProductRequest request)
         {
@@ -172,6 +177,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// DELETE /api/admin/products/{id} - Xóa sản phẩm
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteProduct(int id)
         {

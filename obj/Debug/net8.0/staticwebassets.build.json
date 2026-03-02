@@ -1,11 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "fBQCOyiPV2NqTla9nGqywj9gcrPcPVZkW30k6PQ1KQ0=",
-  "Source": "lap_trinh_web",
-  "BasePath": "_content/lap_trinh_web",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
-}
+{"Version":1,"Hash":"km0sCeGIXLVfKhyhRyYhd10jWE6Ht/CQCi93TfyWwG4=","Source":"lap_trinh_web","BasePath":"_content/lap_trinh_web","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

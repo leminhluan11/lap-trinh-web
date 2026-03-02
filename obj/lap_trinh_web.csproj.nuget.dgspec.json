@@ -1,7 +1,6 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
     "D:\\Back-end_CuoiKy\\Nam3\\lap-trinh-web\\lap_trinh_web.csproj": {}
   },
   "projects": {
@@ -13,30 +12,13 @@
         "projectPath": "D:\\Back-end_CuoiKy\\Nam3\\lap-trinh-web\\lap_trinh_web.csproj",
         "packagesPath": "C:\\Users\\MSI\\.nuget\\packages\\",
         "outputPath": "D:\\Back-end_CuoiKy\\Nam3\\lap-trinh-web\\obj\\",
-=======
-    "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\lap_trinh_web.csproj": {}
-  },
-  "projects": {
-    "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\lap_trinh_web.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\lap_trinh_web.csproj",
-        "projectName": "lap_trinh_web",
-        "projectPath": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\lap_trinh_web.csproj",
-        "packagesPath": "C:\\Users\\nguyenduchieu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\obj\\",
->>>>>>> NDHieu
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\visual\\tools\\NuGetPackages"
         ],
         "configFilePaths": [
-<<<<<<< HEAD
           "C:\\Users\\MSI\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-=======
-          "C:\\Users\\nguyenduchieu\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> NDHieu
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -118,11 +100,7 @@
               "privateAssets": "all"
             }
           },
-<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
-=======
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
->>>>>>> NDHieu
         }
       }
     }

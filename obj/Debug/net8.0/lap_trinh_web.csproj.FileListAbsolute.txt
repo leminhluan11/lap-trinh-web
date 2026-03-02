@@ -1,3 +1,51 @@
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\appsettings.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.staticwebassets.endpoints.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.exe
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.deps.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.runtimeconfig.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.pdb
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Humanizer.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\System.Drawing.Common.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\System.Runtime.Caching.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\System.Security.Permissions.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\System.Windows.Extensions.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.AssemblyReference.cache
 D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\rpswa.dswa.cache.json
 D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.GeneratedMSBuildEditorConfig.editorconfig
@@ -7,80 +55,17 @@ D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.Core
 D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cs
 D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cache
 D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.sourcelink.json
-C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.AssemblyReference.cache
-C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.AssemblyInfoInputs.cache
-C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.AssemblyInfo.cs
-C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.CoreCompileInputs.cache
-C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\lemin\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.sourcelink.json
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.AssemblyReference.cache
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.AssemblyInfoInputs.cache
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.AssemblyInfo.cs
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.csproj.CoreCompileInputs.cache
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.sourcelink.json
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.exe
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.deps.json
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.runtimeconfig.json
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.pdb
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\BCrypt.Net-Next.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Humanizer.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.Identity.Client.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.OpenApi.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\System.Drawing.Common.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\System.Runtime.Caching.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\System.Security.Permissions.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\System.Windows.Extensions.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\staticwebassets.build.json
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\staticwebassets.development.json
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\staticwebassets\msbuild.lap_trinh_web.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\staticwebassets\msbuild.build.lap_trinh_web.props
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.lap_trinh_web.props
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.lap_trinh_web.props
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\staticwebassets.pack.json
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\scopedcss\bundle\lap_trinh_web.styles.css
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trin.3E4F265E.Up2Date
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\refint\lap_trinh_web.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.pdb
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.genruntimeconfig.cache
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\obj\Debug\net8.0\ref\lap_trinh_web.dll
-C:\Users\nguyenduchieu\Downloads\Lập trình\laptrinhungdungweb\ungdungweb\lap-trinh-web\bin\Debug\net8.0\appsettings.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\rjimswa.dswa.cache.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\scopedcss\bundle\lap_trinh_web.styles.css
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\staticwebassets.build.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\staticwebassets.build.json.cache
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\staticwebassets.development.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trin.3E4F265E.Up2Date
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\refint\lap_trinh_web.dll
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.pdb
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.genruntimeconfig.cache
+D:\Back-end_CuoiKy\Nam3\lap-trinh-web\obj\Debug\net8.0\ref\lap_trinh_web.dll

@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FashionEcommerce.Data;
 using FashionEcommerce.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FashionEcommerce.Controllers
 {
     [ApiController]
     [Route("api/admin/users")]
+    [Authorize(Roles = "Admin")]
     public class UsersController : ControllerBase
     {
         private readonly FashionEcommerceDbContext _context;

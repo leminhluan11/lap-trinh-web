@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using FashionEcommerce.Data;
 using FashionEcommerce.Models;
 
 namespace FashionEcommerce.Controllers
 {
     [ApiController]
-    [Route("api/admin/orders")]
+    [Route("api/orders")]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly FashionEcommerceDbContext _context;
@@ -19,6 +21,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// GET /api/admin/orders - Danh sách đơn hàng
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<object>>> GetOrders()
         {
@@ -90,6 +93,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// PUT /api/admin/orders/{id}/status - Cập nhật trạng thái
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}/status")]
         public async Task<ActionResult> UpdateOrderStatus(int id, [FromBody] UpdateOrderStatusRequest request)
         {
@@ -123,6 +127,7 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// GET /api/admin/orders/statistics - Thống kê
         /// </summary>
+        [Authorize(Roles = "Admin")]
         [HttpGet("statistics")]
         public async Task<ActionResult<object>> GetOrderStatistics()
         {
