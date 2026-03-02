@@ -11,26 +11,26 @@ namespace FashionEcommerce.Data
         }
 
         // ==================== 20 DbSet (đúng tên bảng trong DB) ====================
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserAddress> UserAddresses { get; set; }
-        public DbSet<ArticleCategory> ArticleCategories { get; set; }
-        public DbSet<Article> Articles { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Coupon> Coupons { get; set; }
-        public DbSet<MasterColor> MasterColors { get; set; }
-        public DbSet<MasterSize> MasterSizes { get; set; }
-        public DbSet<Notification> Notifications { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
-        public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<ProductImage> ProductImages { get; set; }
-        public DbSet<ProductPromotion> ProductPromotions { get; set; }
-        public DbSet<ProductReview> ProductReviews { get; set; }
-        public DbSet<ProductVariant> ProductVariants { get; set; }
-        public DbSet<Promotion> Promotions { get; set; }
-        public DbSet<PromotionCondition> PromotionConditions { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<UserAddress> UserAddresses { get; set; } = null!;
+        public DbSet<ArticleCategory> ArticleCategories { get; set; } = null!;
+        public DbSet<Article> Articles { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Coupon> Coupons { get; set; } = null!;
+        public DbSet<MasterColor> MasterColors { get; set; } = null!;
+        public DbSet<MasterSize> MasterSizes { get; set; } = null!;
+        public DbSet<Notification> Notifications { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<OrderDetail> OrderDetails { get; set; } = null!;
+        public DbSet<OrderStatusHistory> OrderStatusHistories { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<ProductImage> ProductImages { get; set; } = null!;
+        public DbSet<ProductPromotion> ProductPromotions { get; set; } = null!;
+        public DbSet<ProductReview> ProductReviews { get; set; } = null!;
+        public DbSet<ProductVariant> ProductVariants { get; set; } = null!;
+        public DbSet<Promotion> Promotions { get; set; } = null!;
+        public DbSet<PromotionCondition> PromotionConditions { get; set; } = null!;
+        public DbSet<CartItem> CartItems { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

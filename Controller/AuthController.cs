@@ -4,7 +4,6 @@ using FashionEcommerce.Services;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BCrypt.Net;
 
 namespace FashionEcommerce.Controllers
 {
@@ -124,15 +123,15 @@ namespace FashionEcommerce.Controllers
     // =========================
     public class LoginRequest
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string Username { get; set; } = null!;
+        public string Password { get; set; } = null!;
     }
 
     public class RegisterRequest
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
+        public string Username { get; set; } = null!;
+        public string Password { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
         public string? GoogleId { get; set; }       // thêm
         public DateTime? DateOfBirth { get; set; }  // thêm

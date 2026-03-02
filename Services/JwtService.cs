@@ -22,7 +22,7 @@ namespace FashionEcommerce.Services
         public string GenerateToken(string username, string role, int userId)
         {
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_config["Jwt:Key"])
+                Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key not configured"))
             );
 
             var creds = new SigningCredentials(
@@ -38,8 +38,8 @@ namespace FashionEcommerce.Services
             };
 
             var token = new JwtSecurityToken(
-                issuer: _config["Jwt:Issuer"],
-                audience: _config["Jwt:Audience"],
+                issuer: _config["Jwt:Issuer"] ?? throw new InvalidOperationException("Jwt:Issuer not configured"),
+                audience: _config["Jwt:Audience"] ?? throw new InvalidOperationException("Jwt:Audience not configured"),
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: creds
