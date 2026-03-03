@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using FashionEcommerce.Data;
 using FashionEcommerce.Models;
 using Microsoft.AspNetCore.Authorization;
+using FashionEcommerce.DTOs;  // Thêm using này để dùng DTO
 
 namespace FashionEcommerce.Controllers
 {
@@ -22,19 +23,19 @@ namespace FashionEcommerce.Controllers
         /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<object>>> GetPromotions()
+        public async Task<ActionResult<IEnumerable<PromotionSummaryDto>>> GetPromotions()
         {
             var promotions = await _context.Promotions
-                .Select(p => new
+                .Select(p => new PromotionSummaryDto
                 {
-                    p.Id,
-                    p.Name,
-                    p.DiscountType,
-                    p.DiscountValue,
-                    p.StartDate,
-                    p.EndDate,
-                    p.IsActive,
-                    p.Priority
+                    Id = p.Id,
+                    Name = p.Name,
+                    DiscountType = p.DiscountType,
+                    DiscountValue = p.DiscountValue,
+                    StartDate = p.StartDate,
+                    EndDate = p.EndDate,
+                    IsActive = p.IsActive,
+                    Priority = p.Priority
                 })
                 .ToListAsync();
 
@@ -46,7 +47,7 @@ namespace FashionEcommerce.Controllers
         /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<object>> CreatePromotion([FromBody] CreatePromotionRequest request)
+        public async Task<ActionResult<PromotionSummaryDto>> CreatePromotion([FromBody] CreatePromotionRequest request)
         {
             if (string.IsNullOrEmpty(request.Name))
                 return BadRequest(new { message = "Tên chương trình không được để trống" });
@@ -71,14 +72,17 @@ namespace FashionEcommerce.Controllers
             _context.Promotions.Add(promotion);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPromotionById), new { id = promotion.Id }, new
+            // Trả về DTO thay vì anonymous
+            var response = new PromotionSummaryDto
             {
-                promotion.Id,
-                promotion.Name,
-                promotion.DiscountType,
-                promotion.DiscountValue,
-                promotion.IsActive
-            });
+                Id = promotion.Id,
+                Name = promotion.Name,
+                DiscountType = promotion.DiscountType,
+                DiscountValue = promotion.DiscountValue,
+                IsActive = promotion.IsActive
+            };
+
+            return CreatedAtAction(nameof(GetPromotionById), new { id = promotion.Id }, response);
         }
 
         /// <summary>
@@ -86,7 +90,7 @@ namespace FashionEcommerce.Controllers
         /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<object>> GetPromotionById(int id)
+        public async Task<ActionResult<PromotionDetailDto>> GetPromotionById(int id)
         {
             var promotion = await _context.Promotions
                 .Include(p => p.Conditions)
@@ -96,19 +100,31 @@ namespace FashionEcommerce.Controllers
             if (promotion == null)
                 return NotFound(new { message = "Chương trình khuyến mãi không tồn tại" });
 
-            return Ok(new
+            var dto = new PromotionDetailDto
             {
-                promotion.Id,
-                promotion.Name,
-                promotion.DiscountType,
-                promotion.DiscountValue,
-                promotion.StartDate,
-                promotion.EndDate,
-                promotion.IsActive,
-                promotion.Priority,
-                Conditions = promotion.Conditions,
-                ProductPromotions = promotion.ProductPromotions
-            });
+                Id = promotion.Id,
+                Name = promotion.Name,
+                DiscountType = promotion.DiscountType,
+                DiscountValue = promotion.DiscountValue,
+                StartDate = promotion.StartDate,
+                EndDate = promotion.EndDate,
+                IsActive = promotion.IsActive,
+                Priority = promotion.Priority,
+                Conditions = promotion.Conditions.Select(c => new PromotionConditionDto
+                {
+                    Id = c.Id,
+                    Field = c.Field,
+                    Operator = c.Operator,
+                    Value = c.Value
+                }).ToList(),
+                ProductPromotions = promotion.ProductPromotions.Select(pp => new ProductPromotionDto
+                {
+                    Id = pp.Id,
+                    ProductId = pp.ProductId
+                }).ToList()
+            };
+
+            return Ok(dto);
         }
 
         /// <summary>
@@ -158,7 +174,7 @@ namespace FashionEcommerce.Controllers
         /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpPost("coupons/generate")]
-        public async Task<ActionResult<object>> GenerateCoupons([FromBody] GenerateCouponsRequest request)
+        public async Task<ActionResult<CouponDto>> GenerateCoupons([FromBody] GenerateCouponsRequest request)
         {
             // Kiểm tra Promotion có tồn tại
             var promotion = await _context.Promotions.FindAsync(request.PromotionId);
@@ -191,16 +207,19 @@ namespace FashionEcommerce.Controllers
             _context.Coupons.Add(coupon);
             await _context.SaveChangesAsync();
 
+            // Trả về DTO thay vì anonymous
+            var response = new CouponDto
+            {
+                Id = coupon.Id,
+                Code = coupon.Code,
+                ExpiryDate = coupon.ExpiryDate,
+                PromotionName = promotion.Name
+            };
+
             return Ok(new
             {
                 message = "Tạo voucher thành công",
-                coupon = new
-                {
-                    coupon.Id,
-                    coupon.Code,
-                    coupon.ExpiryDate,
-                    PromotionName = promotion.Name
-                }
+                coupon = response
             });
         }
 
@@ -217,6 +236,7 @@ namespace FashionEcommerce.Controllers
         }
     }
 
+    // Giữ nguyên request DTO cũ của bạn
     public class CreatePromotionRequest
     {
         public string Name { get; set; } = null!;
