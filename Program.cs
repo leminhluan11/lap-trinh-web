@@ -15,7 +15,6 @@ builder.Services.AddDbContext<FashionEcommerceDbContext>(options =>
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -43,6 +42,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
 // ================= JWT CONFIG =================
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -64,7 +64,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<IJwtService, JwtService>();
+
 var app = builder.Build();
+
+// ================= PHỤC VỤ FILE TĨNH (HTML, CSS, JS) =================
+app.UseStaticFiles();      // Quan trọng: phục vụ file từ wwwroot
+app.UseDefaultFiles();     // Tự động trả index.html khi truy cập gốc
 
 // ================= SWAGGER =================
 app.UseSwagger();
@@ -72,11 +77,10 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-// 🔥 QUAN TRỌNG: phải có 2 dòng này
+// Quan trọng: phải có 2 dòng này để JWT hoạt động
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-var services = builder.Services;
 
 app.Run();

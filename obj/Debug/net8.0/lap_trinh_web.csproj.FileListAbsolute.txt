@@ -138,3 +138,4 @@ C:\lap-trinh-web\obj\Debug\net8.0\refint\lap_trinh_web.dll
 C:\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.pdb
 C:\lap-trinh-web\obj\Debug\net8.0\lap_trinh_web.genruntimeconfig.cache
 C:\lap-trinh-web\obj\Debug\net8.0\ref\lap_trinh_web.dll
+C:\lap-trinh-web\bin\Debug\net8.0\lap_trinh_web.staticwebassets.runtime.json

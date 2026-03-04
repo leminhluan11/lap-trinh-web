@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fashion Ecommerce - Đăng nhập / Đăng ký</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google OAuth SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Tab chuyển giữa Login và Register -->
+    <div class="tabs">
+      <button class="tab active" onclick="showForm('login')">Đăng nhập</button>
+      <button class="tab" onclick="showForm('register')">Đăng ký</button>
+    </div>
+
+    <!-- Form Đăng nhập -->
+    <div id="login-form" class="form active">
+      <h2>Đăng nhập</h2>
+      <form id="loginForm">
+        <input type="text" id="login-username" placeholder="Tên đăng nhập" required />
+        <input type="password" id="login-password" placeholder="Mật khẩu" required />
+        <button type="submit">Đăng nhập</button>
+      </form>
+
+      <div class="google-login">
+        <p>Hoặc đăng nhập bằng Google:</p>
+        <div id="googleSignInButton"></div> <!-- Button Google sẽ tự render vào đây -->
+      </div>
+
+      <p class="switch-text">
+        Chưa có tài khoản? <a href="#" onclick="showForm('register')">Đăng ký ngay</a>
+      </p>
+      <p id="login-error" class="error"></p>
+    </div>
+
+    <!-- Form Đăng ký -->
+    <div id="register-form" class="form">
+      <h2>Đăng ký</h2>
+      <form id="registerForm">
+        <input type="text" id="reg-username" placeholder="Tên đăng nhập" required />
+        <input type="email" id="reg-email" placeholder="Email" required />
+        <input type="password" id="reg-password" placeholder="Mật khẩu" required />
+        <input type="text" id="reg-fullname" placeholder="Họ và tên" />
+        <input type="text" id="reg-phone" placeholder="Số điện thoại" />
+        <button type="submit">Đăng ký</button>
+      </form>
+
+      <p class="switch-text">
+        Đã có tài khoản? <a href="#" onclick="showForm('login')">Đăng nhập</a>
+      </p>
+      <p id="register-error" class="error"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
