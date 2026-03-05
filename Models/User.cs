@@ -24,7 +24,7 @@ public class User
     public DateTime? DateOfBirth { get; set; }
 
     [Required, MaxLength(100)]
-    public string FullName { get; set; } = null!;
+    public string? FullName { get; set; } = null!;
 
     [MaxLength(15)]
     public string? PhoneNumber { get; set; }

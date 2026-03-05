@@ -96,7 +96,7 @@ namespace FashionEcommerce.Controllers
             if (!isValidPassword)
                 return Unauthorized(new { success = false, message = "Invalid username or password" });
 
-            string token = _jwt.GenerateToken(user.Username, user.Role, user.Id);
+            string token = _jwt.GenerateToken(user.Username!, user.Role!, user.Id);
 
             return Ok(new
             {

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace FashionEcommerce.Controllers
 {
     [ApiController]
-    [Route("api/admin/products")]
+    [Route("api/products")]
     public class ProductsController : ControllerBase
     {
         private readonly FashionEcommerceDbContext _context;
@@ -190,6 +190,25 @@ namespace FashionEcommerce.Controllers
 
             return Ok(new { message = "Xóa sản phẩm thành công" });
         }
+        [HttpGet("featured")]
+public async Task<IActionResult> GetFeaturedProduct()
+{
+    var product = await _context.Products
+        .Select(p => new
+        {
+            p.Id,
+            p.Name,
+            p.Price,
+            p.Thumbnail,
+            Rating = _context.ProductReviews
+                .Where(r => r.ProductId == p.Id)
+                .Average(r => (double?)r.Rating) ?? 0
+        })
+        .OrderByDescending(p => p.Rating)
+        .FirstOrDefaultAsync();
+
+    return Ok(product);
+}
     }
 
     public class CreateProductRequest

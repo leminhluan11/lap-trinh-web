@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace FashionEcommerce.Controllers
 {
     [ApiController]
-    [Route("api/admin/promotions")]
+    [Route("api/promotions")]
     public class PromotionsController : ControllerBase
     {
         private readonly FashionEcommerceDbContext _context;
