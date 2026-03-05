@@ -9,13 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // ================= DATABASE =================
 builder.Services.AddDbContext<FashionEcommerceDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("DefaultConnection not configured")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection") 
+        ?? throw new InvalidOperationException("DefaultConnection not configured")
+    ));
 
 // ================= CONTROLLERS =================
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// ================= SWAGGER =================
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -25,7 +29,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "bearer",
         BearerFormat = "JWT",
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Nhập token theo dạng: Bearer {your token}"
+        Description = "Nhập token: Bearer {token}"
     });
 
     options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
@@ -43,27 +47,35 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-// ================= JWT CONFIG =================
+
+// ================= JWT =================
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
 
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
 
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key not configured")))
-        };
-    });
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(
+                builder.Configuration["Jwt:Key"] 
+                ?? throw new InvalidOperationException("Jwt:Key not configured")
+            )
+        )
+    };
+});
 
+// ================= SERVICES =================
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<IJwtService, JwtService>();
+
+// ================= CORS =================
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
@@ -74,19 +86,20 @@ builder.Services.AddCors(options =>
                   .AllowAnyMethod();
         });
 });
+
 var app = builder.Build();
-app.UseCors("AllowFrontend");
-// ================= SWAGGER =================
+
+// ================= MIDDLEWARE =================
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-// 🔥 QUAN TRỌNG: phải có 2 dòng này
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-var services = builder.Services;
 
 app.Run();
