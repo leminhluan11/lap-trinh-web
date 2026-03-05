@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using FashionEcommerce.Data;
 using FashionEcommerce.Models;
 using Microsoft.AspNetCore.Authorization;
+using FashionEcommerce.DTOs;  // Đảm bảo using này để dùng DTO
 
 namespace FashionEcommerce.Controllers
 {
@@ -20,25 +21,32 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// GET /api/admin/products - Danh sách sản phẩm
         /// </summary>
-        [Authorize(Roles = "Admin,Customer")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<object>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductSummaryDto>>> GetProducts()
         {
             var products = await _context.Products
-                .Include(p => p.Category)
-                .Select(p => new
-                {
-                    p.Id,
-                    p.Name,
-                    p.Slug,
-                    p.Price,
-                    p.Description,
-                    p.Thumbnail,
-                    p.IsActive,
-                    CategoryId = p.CategoryId,
-                    CategoryName = p.Category.Name
-                })
-                .ToListAsync();
+.Include(p => p.Category)
+.Select(p => new ProductSummaryDto
+{
+    Id = p.Id,
+    Name = p.Name,
+    Slug = p.Slug,
+    Price = p.Price,
+    Description = p.Description,
+    Thumbnail = p.Thumbnail,
+    IsActive = p.IsActive,
+    CategoryId = p.CategoryId,
+    CategoryName = p.Category.Name,
+
+    Rating = _context.ProductReviews
+        .Where(r => r.ProductId == p.Id)
+        .Select(r => (double?)r.Rating)
+        .Average() ?? 0,
+
+    ReviewCount = _context.ProductReviews
+        .Count(r => r.ProductId == p.Id)
+})
+.ToListAsync();
 
             return Ok(products);
         }
@@ -48,7 +56,7 @@ namespace FashionEcommerce.Controllers
         /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult<object>> CreateProduct([FromBody] CreateProductRequest request)
+        public async Task<ActionResult<ProductSummaryDto>> CreateProduct([FromBody] CreateProductRequest request)
         {
             if (string.IsNullOrEmpty(request.Name) || string.IsNullOrEmpty(request.Slug))
                 return BadRequest(new { message = "Name và Slug không được để trống" });
@@ -77,14 +85,17 @@ namespace FashionEcommerce.Controllers
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, new
+            // Trả về DTO thay vì anonymous
+            var response = new ProductSummaryDto
             {
-                product.Id,
-                product.Name,
-                product.Slug,
-                product.Price,
-                product.IsActive
-            });
+                Id = product.Id,
+                Name = product.Name,
+                Slug = product.Slug,
+                Price = product.Price,
+                IsActive = product.IsActive
+            };
+
+            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, response);
         }
 
         /// <summary>
@@ -92,7 +103,7 @@ namespace FashionEcommerce.Controllers
         /// </summary>
         [Authorize(Roles = "Admin,Customer")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<object>> GetProductById(int id)
+        public async Task<ActionResult<ProductDetailDto>> GetProductById(int id)
         {
             var product = await _context.Products
                 .Include(p => p.Category)
@@ -103,23 +114,38 @@ namespace FashionEcommerce.Controllers
             if (product == null)
                 return NotFound(new { message = "Sản phẩm không tồn tại" });
 
-            return Ok(new
+            var dto = new ProductDetailDto
             {
-                product.Id,
-                product.Name,
-                product.Slug,
-                product.Description,
-                product.Price,
-                product.Thumbnail,
-                product.IsActive,
-                Category = new
+                Id = product.Id,
+                Name = product.Name,
+                Slug = product.Slug,
+                Description = product.Description,
+                Price = product.Price,
+                Thumbnail = product.Thumbnail,
+                IsActive = product.IsActive,
+                Category = new CategoryDto
                 {
-                    product.Category.Id,
-                    product.Category.Name
+                    Id = product.Category.Id,
+                    Name = product.Category.Name
                 },
-                Images = product.Images,
-                Variants = product.Variants
-            });
+                Images = product.Images.Select(i => new ProductImageDto
+                {
+                    Id = i.Id,
+                    ImageUrl = i.ImageUrl,
+                    SortOrder = i.SortOrder
+                }).ToList(),
+                Variants = product.Variants.Select(v => new ProductVariantDto
+                {
+                    Id = v.Id,
+                    ColorId = v.ColorId,
+                    SizeId = v.SizeId,
+                    Sku = v.Sku,
+                    Quantity = v.Quantity,
+                    PriceModifier = v.PriceModifier
+                }).ToList()
+            };
+
+            return Ok(dto);
         }
 
         /// <summary>
@@ -211,6 +237,7 @@ public async Task<IActionResult> GetFeaturedProduct()
 }
     }
 
+    // Giữ nguyên request DTO cũ của bạn
     public class CreateProductRequest
     {
         public string Name { get; set; } = null!;

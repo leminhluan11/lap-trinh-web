@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using FashionEcommerce.Data;
 using FashionEcommerce.Models;
+using FashionEcommerce.DTOs;  // Thêm using này để dùng DTOs
 
 namespace FashionEcommerce.Controllers
 {
@@ -23,25 +24,25 @@ namespace FashionEcommerce.Controllers
         /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<object>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<OrderSummaryDto>>> GetOrders()
         {
             var orders = await _context.Orders
                 .Include(o => o.User)
-                .Select(o => new
+                .Select(o => new OrderSummaryDto
                 {
-                    o.Id,
-                    o.OrderCode,
-                    o.OrderDate,
-                    o.ShippingName,
-                    o.ShippingAddress,
-                    o.ShippingPhone,
-                    o.TotalAmount,
-                    o.DiscountAmount,
-                    o.ShippingFee,
-                    o.FinalAmount,
-                    o.PaymentMethod,
-                    o.PaymentStatus,
-                    o.Status,
+                    Id = o.Id,
+                    OrderCode = o.OrderCode,
+                    OrderDate = o.OrderDate,
+                    ShippingName = o.ShippingName,
+                    ShippingAddress = o.ShippingAddress,
+                    ShippingPhone = o.ShippingPhone,
+                    TotalAmount = o.TotalAmount,
+                    DiscountAmount = o.DiscountAmount,
+                    ShippingFee = o.ShippingFee,
+                    FinalAmount = o.FinalAmount,
+                    PaymentMethod = o.PaymentMethod,
+                    PaymentStatus = o.PaymentStatus,
+                    Status = o.Status,
                     UserEmail = o.User != null ? o.User.Email : null
                 })
                 .ToListAsync();
@@ -53,7 +54,7 @@ namespace FashionEcommerce.Controllers
         /// GET /api/admin/orders/{id} - Chi tiết đơn hàng
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<ActionResult<object>> GetOrderById(int id)
+        public async Task<ActionResult<OrderDetailDto>> GetOrderById(int id)
         {
             var order = await _context.Orders
                 .Include(o => o.User)
@@ -63,31 +64,42 @@ namespace FashionEcommerce.Controllers
             if (order == null)
                 return NotFound(new { message = "Đơn hàng không tồn tại" });
 
-            return Ok(new
+            var dto = new OrderDetailDto
             {
-                order.Id,
-                order.OrderCode,
-                order.OrderDate,
-                order.ShippingName,
-                order.ShippingAddress,
-                order.ShippingPhone,
-                order.TotalAmount,
-                order.DiscountAmount,
-                order.CouponCode,
-                order.ShippingFee,
-                order.FinalAmount,
-                order.PaymentMethod,
-                order.PaymentStatus,
-                order.Status,
-                User = order.User != null ? new
+                Id = order.Id,
+                OrderCode = order.OrderCode,
+                OrderDate = order.OrderDate,
+                ShippingName = order.ShippingName,
+                ShippingAddress = order.ShippingAddress,
+                ShippingPhone = order.ShippingPhone,
+                TotalAmount = order.TotalAmount,
+                DiscountAmount = order.DiscountAmount,
+                CouponCode = order.CouponCode,
+                ShippingFee = order.ShippingFee,
+                FinalAmount = order.FinalAmount,
+                PaymentMethod = order.PaymentMethod,
+                PaymentStatus = order.PaymentStatus,
+                Status = order.Status,
+                User = order.User != null ? new UserSummaryDto
                 {
-                    order.User.Id,
-                    order.User.Email,
-                    order.User.FullName,
-                    order.User.PhoneNumber
+                    Id = order.User.Id,
+                    Email = order.User.Email,
+                    FullName = order.User.FullName,
+                    PhoneNumber = order.User.PhoneNumber
                 } : null,
-                OrderDetails = order.Details
-            });
+                OrderDetails = order.Details.Select(d => new OrderItemDto
+                {
+                    Id = d.Id,
+                    ProductVariantId = d.ProductVariantId,
+                    Snapshot_ProductName = d.Snapshot_ProductName,
+                    Snapshot_Sku = d.Snapshot_Sku,
+                    Snapshot_Thumbnail = d.Snapshot_Thumbnail,
+                    Quantity = d.Quantity,
+                    UnitPrice = d.UnitPrice
+                }).ToList()
+            };
+
+            return Ok(dto);
         }
 
         /// <summary>
@@ -129,7 +141,7 @@ namespace FashionEcommerce.Controllers
         /// </summary>
         [Authorize(Roles = "Admin")]
         [HttpGet("statistics")]
-        public async Task<ActionResult<object>> GetOrderStatistics()
+        public async Task<ActionResult<OrderStatisticsDto>> GetOrderStatistics()
         {
             var totalOrders = await _context.Orders.CountAsync();
             var totalRevenue = await _context.Orders.SumAsync(o => o.FinalAmount);
@@ -138,7 +150,7 @@ namespace FashionEcommerce.Controllers
 
             var ordersByStatus = await _context.Orders
                 .GroupBy(o => o.Status)
-                .Select(g => new
+                .Select(g => new OrderByStatusDto
                 {
                     Status = g.Key,
                     Count = g.Count(),
@@ -148,9 +160,9 @@ namespace FashionEcommerce.Controllers
 
             var ordersByPaymentStatus = await _context.Orders
                 .GroupBy(o => o.PaymentStatus)
-                .Select(g => new
+                .Select(g => new OrderByPaymentStatusDto
                 {
-                    PaymentStatus = g.Key,
+                    PaymentStatus = g.Key ?? "Unknown",
                     Count = g.Count(),
                     Amount = g.Sum(o => o.FinalAmount)
                 })
@@ -158,7 +170,7 @@ namespace FashionEcommerce.Controllers
 
             var averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
 
-            return Ok(new
+            var statistics = new OrderStatisticsDto
             {
                 TotalOrders = totalOrders,
                 TotalRevenue = totalRevenue,
@@ -167,10 +179,13 @@ namespace FashionEcommerce.Controllers
                 AverageOrderValue = averageOrderValue,
                 OrdersByStatus = ordersByStatus,
                 OrdersByPaymentStatus = ordersByPaymentStatus
-            });
+            };
+
+            return Ok(statistics);
         }
     }
 
+    // Giữ nguyên request DTO cũ
     public class UpdateOrderStatusRequest
     {
         public int Status { get; set; }

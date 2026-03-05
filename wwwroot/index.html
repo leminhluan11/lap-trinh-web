@@ -1,356 +1,60 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Fashion Store</title>
-
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial;
-            background: #f5f5f5;
-        }
-
-        header {
-            background: #000;
-            color: white;
-            padding: 15px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        nav a {
-            color: white;
-            margin-left: 20px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .slider {
-            width: 100%;
-            height: 420px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: 1s;
-        }
-
-        .slide img {
-            width: 100%;
-            height: 420px;
-            object-fit: cover;
-        }
-
-        .slide.active {
-            opacity: 1;
-        }
-
-        .section {
-            padding: 40px;
-        }
-
-        .section h2 {
-            margin-bottom: 25px;
-        }
-
-        .featured {
-            display: flex;
-            gap: 30px;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .featured img {
-            width: 320px;
-            border-radius: 10px;
-        }
-
-        .featured-info {
-            flex: 1;
-        }
-
-        .featured-price {
-            font-size: 28px;
-            color: red;
-        }
-
-        .old-price {
-            text-decoration: line-through;
-            font-size: 14px;
-            color: gray;
-        }
-
-        .products {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .product {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            transition: 0.3s;
-        }
-
-        .product:hover {
-            transform: scale(1.03);
-        }
-
-        .product img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .product-name {
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        .product-price {
-            color: red;
-            font-size: 18px;
-        }
-
-        .filter-buttons {
-            margin-bottom: 20px;
-        }
-
-        .filter-buttons button {
-            padding: 10px 15px;
-            border: none;
-            background: black;
-            color: white;
-            margin-right: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        footer {
-            background: #111;
-            color: white;
-            padding: 30px;
-            margin-top: 40px;
-        }
-
-        footer p {
-            margin: 5px 0;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fashion Ecommerce - Đăng nhập / Đăng ký</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google OAuth SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-
 <body>
-
-    <header>
-        <h1>Fashion Store</h1>
-
-        <nav>
-            <a href="index.html">Trang chủ</a>
-            <a href="cart.html">Giỏ hàng</a>
-        </nav>
-    </header>
-
-
-    <div class="slider">
-
-        <div class="slide active">
-            <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b">
-        </div>
-
-        <div class="slide">
-            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d">
-        </div>
-
-        <div class="slide">
-            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8">
-        </div>
-
+  <div class="container">
+    <!-- Tab chuyển giữa Login và Register -->
+    <div class="tabs">
+      <button class="tab active" onclick="showForm('login')">Đăng nhập</button>
+      <button class="tab" onclick="showForm('register')">Đăng ký</button>
     </div>
 
+    <!-- Form Đăng nhập -->
+    <div id="login-form" class="form active">
+      <h2>Đăng nhập</h2>
+      <form id="loginForm">
+        <input type="text" id="login-username" placeholder="Tên đăng nhập" required />
+        <input type="password" id="login-password" placeholder="Mật khẩu" required />
+        <button type="submit">Đăng nhập</button>
+      </form>
 
+      <div class="google-login">
+        <p>Hoặc đăng nhập bằng Google:</p>
+        <div id="googleSignInButton"></div> <!-- Button Google sẽ tự render vào đây -->
+      </div>
 
-    <div class="section">
-
-        <h2>Sản phẩm nổi bật</h2>
-
-        <div id="featuredProduct"></div>
-
+      <p class="switch-text">
+        Chưa có tài khoản? <a href="#" onclick="showForm('register')">Đăng ký ngay</a>
+      </p>
+      <p id="login-error" class="error"></p>
     </div>
 
+    <!-- Form Đăng ký -->
+    <div id="register-form" class="form">
+      <h2>Đăng ký</h2>
+      <form id="registerForm">
+        <input type="text" id="reg-username" placeholder="Tên đăng nhập" required />
+        <input type="email" id="reg-email" placeholder="Email" required />
+        <input type="password" id="reg-password" placeholder="Mật khẩu" required />
+        <input type="text" id="reg-fullname" placeholder="Họ và tên" />
+        <input type="text" id="reg-phone" placeholder="Số điện thoại" />
+        <button type="submit">Đăng ký</button>
+      </form>
 
-
-    <div class="section">
-
-        <h2>Tất cả sản phẩm</h2>
-
-        <div class="filter-buttons" id="categoryFilters"></div>
-
-        <div class="products" id="productList"></div>
-
+      <p class="switch-text">
+        Đã có tài khoản? <a href="#" onclick="showForm('login')">Đăng nhập</a>
+      </p>
+      <p id="register-error" class="error"></p>
     </div>
+  </div>
 
-
-    <footer>
-
-        <p>Fashion Store</p>
-        <p>Địa chỉ: 123 Nguyễn Trãi, Hà Nội</p>
-        <p>Email: fashionstore@gmail.com</p>
-        <p>Điện thoại: 0988888888</p>
-        <p>Facebook: fb.com/fashionstore</p>
-        <p>Zalo: 0988888888</p>
-
-    </footer>
-
-
-    <script>
-
-const API = "http://localhost:5500/api/products";
-
-let allProducts = [];
-
-const token = localStorage.getItem("token");
-
-fetch(API, {
-    headers: token ? {
-        "Authorization": "Bearer " + token
-    } : {}
-})
-.then(res => res.json())
-.then(data => {
-
-    // đảm bảo rating luôn có
-    data.forEach(p => {
-        p.rating = p.rating ?? 0;
-    });
-
-    allProducts = data;
-
-    renderProducts(data);
-    renderCategories(data);
-    renderFeatured(data);
-
-})
-.then(res => {
-    if(!res.ok){
-        throw new Error("API Error: " + res.status);
-    }
-    return res.json();
-})
-.catch(err => {
-    console.error(err);
-    alert("Không tải được sản phẩm");
-});
-
-
-function renderProducts(products) {
-
-    const container = document.getElementById("productList");
-    container.innerHTML = "";
-
-    products.forEach(p => {
-
-        let price = p.price ?? 0;
-
-let priceHTML = `<div class="product-price">${price.toLocaleString()} đ</div>`;
-
-        container.innerHTML += `
-        <div class="product">
-            <img src="${p.thumbnail || 'https://via.placeholder.com/300'}">
-            <div class="product-name">${p.name}</div>
-            <div>${p.categoryName}</div>
-            ${priceHTML}
-            <div>⭐ ${p.rating}</div>
-        </div>
-        `;
-
-    });
-}
-
-
-function renderCategories(products) {
-
-    const filters = document.getElementById("categoryFilters");
-
-    const categories = [...new Set(products.map(p => p.categoryName))];
-
-    filters.innerHTML = `<button onclick="renderProducts(allProducts)">Tất cả</button>`;
-
-    categories.forEach(c => {
-        filters.innerHTML += `
-<button onclick="filterCategory(\`${c}\`)">${c}</button>
-`;
-    });
-
-}
-
-
-function filterCategory(category) {
-
-    const filtered = allProducts.filter(p => p.categoryName == category);
-
-    renderProducts(filtered);
-
-}
-
-
-function renderFeatured(products) {
-
-    if (!products.length) return;
-
-    // copy mảng để không làm hỏng dữ liệu gốc
-    let sorted = [...products].sort((a, b) => b.rating - a.rating);
-
-    let featured = sorted[0];
-
-    document.getElementById("featuredProduct").innerHTML = `
-    <div class="featured">
-        <img src="${featured.thumbnail || 'https://via.placeholder.com/300'}">
-        <div class="featured-info">
-            <h3>${featured.name}</h3>
-            <p>${featured.description || ""}</p>
-            <div class="featured-price">
-                ${featured.price.toLocaleString()} đ
-            </div>
-            <p>⭐ ${featured.rating}</p>
-        </div>
-    </div>
-    `;
-
-}
-
-
-let slides = document.querySelectorAll(".slide");
-
-let index = 0;
-
-setInterval(() => {
-
-    slides[index].classList.remove("active");
-
-    index = (index + 1) % slides.length;
-
-    slides[index].classList.add("active");
-
-}, 4000);
-
-</script>
-
+  <script src="script.js"></script>
 </body>
-
 </html>
