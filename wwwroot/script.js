@@ -43,7 +43,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
     localStorage.setItem('token', token);
     alert('Đăng nhập thành công!');
-    window.location.href = 'sanpham.html'; // Chuyển sang trang dashboard
+    window.location.href = 'quanlysanpham.html'; // Chuyển sang trang dashboard
   } catch (err) {
     console.error('Lỗi đăng nhập:', err);
     errorEl.textContent = err.message;
