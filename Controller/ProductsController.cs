@@ -8,7 +8,7 @@ using FashionEcommerce.DTOs;  // Đảm bảo using này để dùng DTO
 namespace FashionEcommerce.Controllers
 {
     [ApiController]
-    [Route("api/admin/products")]
+    [Route("api/products")]
     public class ProductsController : ControllerBase
     {
         private readonly FashionEcommerceDbContext _context;
@@ -21,25 +21,32 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// GET /api/admin/products - Danh sách sản phẩm
         /// </summary>
-        [Authorize(Roles = "Admin,Customer")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductSummaryDto>>> GetProducts()
         {
             var products = await _context.Products
-                .Include(p => p.Category)
-                .Select(p => new ProductSummaryDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Slug = p.Slug,
-                    Price = p.Price,
-                    Description = p.Description,
-                    Thumbnail = p.Thumbnail,
-                    IsActive = p.IsActive,
-                    CategoryId = p.CategoryId,
-                    CategoryName = p.Category.Name
-                })
-                .ToListAsync();
+.Include(p => p.Category)
+.Select(p => new ProductSummaryDto
+{
+    Id = p.Id,
+    Name = p.Name,
+    Slug = p.Slug,
+    Price = p.Price,
+    Description = p.Description,
+    Thumbnail = p.Thumbnail,
+    IsActive = p.IsActive,
+    CategoryId = p.CategoryId,
+    CategoryName = p.Category.Name,
+
+    Rating = _context.ProductReviews
+        .Where(r => r.ProductId == p.Id)
+        .Select(r => (double?)r.Rating)
+        .Average() ?? 0,
+
+    ReviewCount = _context.ProductReviews
+        .Count(r => r.ProductId == p.Id)
+})
+.ToListAsync();
 
             return Ok(products);
         }
@@ -209,6 +216,25 @@ namespace FashionEcommerce.Controllers
 
             return Ok(new { message = "Xóa sản phẩm thành công" });
         }
+        [HttpGet("featured")]
+public async Task<IActionResult> GetFeaturedProduct()
+{
+    var product = await _context.Products
+        .Select(p => new
+        {
+            p.Id,
+            p.Name,
+            p.Price,
+            p.Thumbnail,
+            Rating = _context.ProductReviews
+                .Where(r => r.ProductId == p.Id)
+                .Average(r => (double?)r.Rating) ?? 0
+        })
+        .OrderByDescending(p => p.Rating)
+        .FirstOrDefaultAsync();
+
+    return Ok(product);
+}
     }
 
     // Giữ nguyên request DTO cũ của bạn

@@ -8,7 +8,7 @@ using FashionEcommerce.DTOs;  // Thêm using này để dùng DTO
 namespace FashionEcommerce.Controllers
 {
     [ApiController]
-    [Route("api/admin/promotions")]
+    [Route("api/promotions")]
     public class PromotionsController : ControllerBase
     {
         private readonly FashionEcommerceDbContext _context;

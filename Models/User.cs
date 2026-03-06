@@ -18,13 +18,13 @@ public class User
     [Required, MaxLength(100), EmailAddress]
     public string Email { get; set; } = null!;
 
-    [MaxLength(100)]
+    [MaxLength(1000)]
     public string? GoogleId { get; set; }
 
     public DateTime? DateOfBirth { get; set; }
 
     [Required, MaxLength(100)]
-    public string FullName { get; set; } = null!;
+    public string? FullName { get; set; } = null!;
 
     [MaxLength(15)]
     public string? PhoneNumber { get; set; }

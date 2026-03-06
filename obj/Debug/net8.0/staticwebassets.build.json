@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0PcGA7NOmCCY89Fql4relmDUH6wjQNpe2NlSKrgRaNQ=",
+  "Hash": "hhRACOokd5rQEnHMc2zw+DXU9AN1Mh1k460YdSryNaA=",
   "Source": "lap_trinh_web",
   "BasePath": "_content/lap_trinh_web",
   "Mode": "Default",
@@ -16,6 +16,25 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "C:\\lap-trinh-web\\wwwroot\\cart.html",
+      "SourceId": "lap_trinh_web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\lap-trinh-web\\wwwroot\\",
+      "BasePath": "_content/lap_trinh_web",
+      "RelativePath": "cart.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\cart.html"
+    },
     {
       "Identity": "C:\\lap-trinh-web\\wwwroot\\dashboard.html",
       "SourceId": "lap_trinh_web",
@@ -36,12 +55,12 @@
       "OriginalItemSpec": "wwwroot\\dashboard.html"
     },
     {
-      "Identity": "C:\\lap-trinh-web\\wwwroot\\index.html",
+      "Identity": "C:\\lap-trinh-web\\wwwroot\\dathang.html",
       "SourceId": "lap_trinh_web",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\lap-trinh-web\\wwwroot\\",
       "BasePath": "_content/lap_trinh_web",
-      "RelativePath": "index.html",
+      "RelativePath": "dathang.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -52,15 +71,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\index.html"
+      "OriginalItemSpec": "wwwroot\\dathang.html"
     },
     {
-      "Identity": "C:\\lap-trinh-web\\wwwroot\\script.js",
+      "Identity": "C:\\lap-trinh-web\\wwwroot\\login.html",
       "SourceId": "lap_trinh_web",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\lap-trinh-web\\wwwroot\\",
       "BasePath": "_content/lap_trinh_web",
-      "RelativePath": "script.js",
+      "RelativePath": "login.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -71,15 +90,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\script.js"
+      "OriginalItemSpec": "wwwroot\\login.html"
     },
     {
-      "Identity": "C:\\lap-trinh-web\\wwwroot\\style.css",
+      "Identity": "C:\\lap-trinh-web\\wwwroot\\quanlysanpham.html",
       "SourceId": "lap_trinh_web",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\lap-trinh-web\\wwwroot\\",
       "BasePath": "_content/lap_trinh_web",
-      "RelativePath": "style.css",
+      "RelativePath": "quanlysanpham.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -90,7 +109,26 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\style.css"
+      "OriginalItemSpec": "wwwroot\\quanlysanpham.html"
+    },
+    {
+      "Identity": "C:\\lap-trinh-web\\wwwroot\\sanpham.html",
+      "SourceId": "lap_trinh_web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\lap-trinh-web\\wwwroot\\",
+      "BasePath": "_content/lap_trinh_web",
+      "RelativePath": "sanpham.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\sanpham.html"
     }
   ]
 }

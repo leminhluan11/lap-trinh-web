@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý sản phẩm</title>
+
+    <style>
+.navbar{
+    width:100%;
+    background:#1e293b;
+    padding:15px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-radius:10px;
+    margin-bottom:30px;
+}
+
+.navbar h2{
+    color:white;
+    margin:0;
+    font-size:20px;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    padding:8px 12px;
+    border-radius:6px;
+    transition:0.2s;
+}
+
+.nav-links a:hover{
+    background:#334155;
+}
+body{
+    font-family: "Segoe UI", Arial;
+    background:#f1f3f6;
+    padding:40px;
+}
+
+h1{
+    margin-bottom:25px;
+    color:#333;
+}
+
+button{
+    padding:8px 14px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:500;
+}
+
+.add-btn{
+    background:#4CAF50;
+    color:white;
+}
+
+.add-btn:hover{
+    background:#43a047;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+th{
+    background:#1e293b;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+}
+
+tr:hover{
+    background:#f9fafb;
+}
+
+img{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+.action-btn{
+    margin:2px;
+}
+
+.edit{
+    background:#2196F3;
+    color:white;
+}
+
+.delete{
+    background:#e53935;
+    color:white;
+}
+
+.edit:hover{
+    background:#1e88e5;
+}
+
+.delete:hover{
+    background:#d32f2f;
+}
+
+.form-box{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:white;
+    padding:30px;
+    width:400px;
+    border-radius:10px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    display:none;
+}
+
+.form-box h3{
+    margin-bottom:15px;
+}
+
+.form-box input{
+    width:100%;
+    padding:10px;
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:6px;
+}
+
+.form-box button{
+    margin-top:5px;
+}
+
+.save{
+    background:#4CAF50;
+    color:white;
+}
+
+.cancel{
+    background:#777;
+    color:white;
+}
+
+.save:hover{
+    background:#43a047;
+}
+
+.cancel:hover{
+    background:#666;
+}
+
+</style>
+</head>
+
+
+<body>
+    <div class="navbar">
+
+    <h2></h2>
+
+    <div class="nav-links">
+        <a href="quanlysanpham.html">Sản phẩm</a>
+        <a href="donhang.html">Đơn hàng</a>
+    </div>
+
+</div>
+    <h1>Quản lý sản phẩm</h1>
+
+    <button onclick="openAdd()">+ Thêm sản phẩm</button>
+
+    <br><br>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ảnh</th>
+                <th>Tên</th>
+                <th>Giá</th>
+                <th>Danh mục</th>
+                <th>Rating</th>
+                <th>Active</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+
+        <tbody id="productTable"></tbody>
+
+    </table>
+
+
+
+    <div class="form-box" id="productForm">
+
+        <h3 id="formTitle">Thêm sản phẩm</h3>
+
+        <input id="name" placeholder="Tên sản phẩm">
+        <input id="slug" placeholder="Slug">
+        <input id="price" type="number" placeholder="Giá">
+        <input id="categoryId" placeholder="Category Id">
+        <input id="thumbnail" placeholder="Link ảnh">
+        <input id="description" placeholder="Mô tả">
+
+        <button onclick="saveProduct()">Lưu</button>
+        <button onclick="closeForm()">Hủy</button>
+
+    </div>
+
+
+    <script>
+        const token = localStorage.getItem("token")
+
+if (!token) {
+    alert("Bạn chưa đăng nhập admin")
+    location.href = "login.html"
+}
+
+const API = "http://localhost:5000/api/products"
+
+        let editId = null
+
+
+        function loadProducts() {
+
+            fetch(API)
+                .then(res => res.json())
+                .then(data => {
+
+                    const table = document.getElementById("productTable")
+
+                    table.innerHTML = ""
+
+                    data.forEach(p => {
+
+                        table.innerHTML += `
+
+<tr>
+
+<td>${p.id}</td>
+
+<td>
+<img 
+<img 
+src="${p.thumbnail || 'https://cdn-icons-png.flaticon.com/512/2748/2748558.png'}" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2748/2748558.png'">
+</td>
+
+<td>${p.name}</td>
+
+<td>${Number(p.price).toLocaleString()} đ</td>
+
+<td>${p.categoryName}</td>
+
+<td>⭐ ${p.rating.toFixed(1)}</td>
+
+<td>${p.isActive ? "✔️" : "❌"}</td>
+
+<td>
+
+<button onclick="editProduct(${p.id})">Sửa</button>
+
+<button onclick="deleteProduct(${p.id})">Xóa</button>
+
+</td>
+
+</tr>
+
+`
+
+                    })
+
+                })
+
+        }
+
+
+        loadProducts()
+
+
+
+        function deleteProduct(id) {
+
+            if (!confirm("Xóa sản phẩm?")) return
+
+            fetch(API + "/" + id, {
+                method: "DELETE",
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            })
+                .then(() => loadProducts())
+
+        }
+
+
+
+        function editProduct(id) {
+
+            fetch(API + "/" + id, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            })
+                .then(res => res.json())
+                .then(p => {
+
+                    editId = id
+
+                    document.getElementById("formTitle").innerText = "Sửa sản phẩm"
+
+                    name.value = p.name
+                    slug.value = p.slug
+                    price.value = p.price
+                    categoryId.value = p.category?.id || ""
+                    thumbnail.value = p.thumbnail
+                    description.value = p.description
+
+                    document.getElementById("productForm").style.display = "block"
+
+                })
+
+        }
+
+
+
+        function openAdd() {
+
+            editId = null
+
+            document.getElementById("formTitle").innerText = "Thêm sản phẩm"
+
+            name.value = ""
+            slug.value = ""
+            price.value = ""
+            categoryId.value = ""
+            thumbnail.value = ""
+            description.value = ""
+
+            document.getElementById("productForm").style.display = "block"
+
+        }
+
+
+
+        function closeForm() {
+            document.getElementById("productForm").style.display = "none"
+        }
+
+
+
+        function saveProduct() {
+
+    const name = document.getElementById("name")
+    const slug = document.getElementById("slug")
+    const price = document.getElementById("price")
+    const categoryId = document.getElementById("categoryId")
+    const thumbnail = document.getElementById("thumbnail")
+    const description = document.getElementById("description")
+
+    let data = {
+        name: name.value.trim(),
+        slug: slug.value.trim(),
+        price: Number(price.value),
+        categoryId: Number(categoryId.value),
+        thumbnail: thumbnail.value ? thumbnail.value.trim() : "",
+        description: description.value ? description.value.trim() : "",
+        isActive: true
+    }
+
+    if (editId == null) {
+
+        fetch(API, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(() => {
+            closeForm()
+            loadProducts()
+        })
+
+    } else {
+
+        fetch(API + "/" + editId, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
+            },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(() => {
+            closeForm()
+            loadProducts()
+        })
+
+    }
+
+}
+
+    </script>
+
+
+</body>
+
+</html>

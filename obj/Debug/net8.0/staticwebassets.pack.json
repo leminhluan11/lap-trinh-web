@@ -1,20 +1,28 @@
 {
   "Files": [
     {
+      "Id": "C:\\lap-trinh-web\\wwwroot\\cart.html",
+      "PackagePath": "staticwebassets\\cart.html"
+    },
+    {
       "Id": "C:\\lap-trinh-web\\wwwroot\\dashboard.html",
       "PackagePath": "staticwebassets\\dashboard.html"
     },
     {
-      "Id": "C:\\lap-trinh-web\\wwwroot\\index.html",
-      "PackagePath": "staticwebassets\\index.html"
+      "Id": "C:\\lap-trinh-web\\wwwroot\\dathang.html",
+      "PackagePath": "staticwebassets\\dathang.html"
     },
     {
-      "Id": "C:\\lap-trinh-web\\wwwroot\\script.js",
-      "PackagePath": "staticwebassets\\script.js"
+      "Id": "C:\\lap-trinh-web\\wwwroot\\login.html",
+      "PackagePath": "staticwebassets\\login.html"
     },
     {
-      "Id": "C:\\lap-trinh-web\\wwwroot\\style.css",
-      "PackagePath": "staticwebassets\\style.css"
+      "Id": "C:\\lap-trinh-web\\wwwroot\\quanlysanpham.html",
+      "PackagePath": "staticwebassets\\quanlysanpham.html"
+    },
+    {
+      "Id": "C:\\lap-trinh-web\\wwwroot\\sanpham.html",
+      "PackagePath": "staticwebassets\\sanpham.html"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.lap_trinh_web.props",
