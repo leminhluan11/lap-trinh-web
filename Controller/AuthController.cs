@@ -203,7 +203,45 @@ namespace FashionEcommerce.Controllers
                 Message = "Đăng xuất thành công"
             });
         }
+
+        [HttpPost("refresh-token")]
+public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+{
+    var user = await _context.Users
+        .FirstOrDefaultAsync(u => u.Id == request.UserId);
+
+    if (user == null)
+    {
+        return Unauthorized(new AuthResponseDto
+        {
+            Success = false,
+            Message = "User không tồn tại"
+        });
     }
+
+    if (user.IsLocked)
+    {
+        return Unauthorized(new AuthResponseDto
+        {
+            Success = false,
+            Message = "Tài khoản đã bị khóa"
+        });
+    }
+
+    string newToken = _jwt.GenerateToken(user.Username!, user.Role!, user.Id);
+
+    return Ok(new AuthResponseDto
+    {
+        Success = true,
+        Message = "Refresh token thành công",
+        Token = newToken,
+        UserId = user.Id,
+        Username = user.Username,
+        Role = user.Role
+    });
+}
+    }
+    
 
     // DTOs
     public class LoginRequest

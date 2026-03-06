@@ -152,71 +152,86 @@
         footer p {
             margin: 5px 0;
         }
-        .product-bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:8px;
-}
 
-.btn-order{
-    background:#ff4d4f;
-    color:white;
-    border:none;
-    padding:6px 12px;
-    border-radius:6px;
-    cursor:pointer;
-    font-size:13px;
-}
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
 
-.btn-order:hover{
-    background:#ff7875;
-}
-.variant-box{
-margin-top:8px;
-}
+        .btn-order {
+            background: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
 
-.color-row{
-display:flex;
-gap:6px;
-margin-top:4px;
-}
+        .btn-order:hover {
+            background: #ff7875;
+        }
 
-.color-dot{
-width:16px;
-height:16px;
-border-radius:50%;
-border:1px solid #ccc;
-cursor:pointer;
-}
+        .variant-box {
+            margin-top: 8px;
+        }
 
-.size-row{
-display:flex;
-gap:6px;
-margin-top:4px;
-}
+        .color-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
 
-.size-btn{
-border:1px solid #ddd;
-padding:2px 6px;
-font-size:12px;
-cursor:pointer;
-border-radius:4px;
-}
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
 
-.size-btn.active{
-background:#000;
-color:white;
-}
-.old-price{
+        .size-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .size-btn {
+            border: 1px solid #ddd;
+            padding: 2px 6px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .size-btn.active {
+            background: #000;
+            color: white;
+        }
+
+        .old-price {
+            color: #999;
+            font-size: 14px;
+            text-decoration: line-through;
+            margin-right: 6px;
+        }
+
+        .sale-price {
+            color: #e60023;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .old-price{
 color:#999;
-font-size:14px;
+font-size:13px;
 text-decoration:line-through;
 margin-right:6px;
 }
 
 .sale-price{
-color:#e60023;
+color:red;
 font-size:18px;
 font-weight:bold;
 }
@@ -270,7 +285,7 @@ font-weight:bold;
         <div class="filter-buttons" id="categoryFilters"></div>
 
         <div class="products" id="productList"></div>
-        
+
 
     </div>
 
@@ -288,77 +303,129 @@ font-weight:bold;
 
 
     <script>
-const selectedVariants = {}
-const API = "http://localhost:5000/api/products";
+        const selectedVariants = {}
+        const API = "http://localhost:5000/api/products";
 
-let allProducts = [];
+        let allProducts = [];
 
-const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-fetch(API, {
+        Promise.all([
+            fetch(API, {
+                headers: token ? {
+                    "Authorization": "Bearer " + token
+                } : {}
+            }).then(res => res.json()),
+
+            fetch("http://localhost:5000/api/promotions", {
     headers: token ? {
         "Authorization": "Bearer " + token
     } : {}
-})
-.then(res => res.json())
-.then(data => {
+}).then(res => res.json()),
 
-    // đảm bảo rating luôn có
-    data.forEach(p => {
-        p.rating = p.rating ?? 0;
-    });
+            fetch("http://localhost:5000/api/productpromotions", {
+    headers: token ? {
+        "Authorization": "Bearer " + token
+    } : {}
+}).then(res => res.json())
 
-    allProducts = data;
+        ])
+            .then(([products, promotions, productPromotions]) => {
 
-    renderProducts(data);
-    renderCategories(data);
-    renderFeatured(data);
+                products.forEach(p => {
 
-})
-.catch(err => {
-    console.error(err);
-    alert("Không tải được sản phẩm");
-});
+                    p.rating = p.rating ?? 0;
+
+                    const relation = productPromotions.find(r => r.productId == p.id)
+
+                    if (!relation) return
+
+                    const promo = promotions.find(pr => pr.id == relation.promotionId)
+
+                    if (!promo) return
+
+                    const now = new Date()
+
+                    if (!promo.isActive) return
+
+                    if (new Date(promo.startDate) > now) return
+
+                    if (new Date(promo.endDate) < now) return
+
+                    let finalPrice = p.price
+
+                    if (promo.discountType === "PERCENTAGE") {
+
+                        finalPrice = p.price - (p.price * promo.discountValue / 100)
+
+                    }
+
+                    if (promo.discountType === "FIXED_AMOUNT") {
+
+                        finalPrice = p.price - promo.discountValue
+
+                    }
+
+                    if (finalPrice < 0) finalPrice = 0
+
+                    p.oldPrice = p.price
+                    p.price = finalPrice
+                    p.hasPromotion = true
+
+                })
+
+                allProducts = products
+
+                renderProducts(products)
+                renderCategories(products)
+                renderFeatured(products)
+
+            })
+            .catch(err => {
+                console.error(err)
+                alert("Không tải được dữ liệu")
+            })
 
 
-function renderProducts(products) {
+        function renderProducts(products) {
 
-    const container = document.getElementById("productList");
-    container.innerHTML = "";
+            const container = document.getElementById("productList");
+            container.innerHTML = "";
 
-    products.forEach(p => {
+            products.forEach(p => {
 
-        let price = p.price ?? 0;
+                let price = p.price ?? 0;
+                let oldPrice = p.oldPrice;
 
-let finalPrice = p.finalPrice ?? price
-let discount = p.discount ?? 0
+                let finalPrice = p.finalPrice ?? price
+                let discount = p.discount ?? 0
 
-let priceHTML = ""
+                let priceHTML = ""
 
-if(discount > 0){
+if (p.hasPromotion) {
 
 priceHTML = `
-<div id="price-${p.id}" data-base="${price}">
+<div id="price-${p.id}" data-base="${p.oldPrice}" data-final="${p.price}">
 <span class="old-price">
-${price.toLocaleString()} đ
+${p.oldPrice.toLocaleString()} đ
 </span>
 <span class="sale-price">
-${finalPrice.toLocaleString()} đ
+${p.price.toLocaleString()} đ
 </span>
 </div>
 `
 
-}else{
+} else {
 
 priceHTML = `
-<div class="sale-price" id="price-${p.id}" data-base="${price}">
-${price.toLocaleString()} đ
+<div class="sale-price" id="price-${p.id}" data-base="${p.price}">
+${p.price.toLocaleString()} đ
 </div>
 `
 
 }
 
-        container.innerHTML += `
+                container.innerHTML += `
         <div class="product">
             <img src="${p.thumbnail || 'https://via.placeholder.com/300'}">
             <div class="product-name">${p.name}</div>
@@ -375,130 +442,137 @@ ${price.toLocaleString()} đ
             </div>
         </div>
         `;
-        renderVariants(p);
-    });
-}
-
-function renderVariants(product){
-
-    const box = document.getElementById("variant-" + product.id)
-
-    if(!product.variants || product.variants.length === 0) return
-
-    const colors = {}
-
-    product.variants.forEach(v=>{
-        if(!colors[v.colorHex]){
-            colors[v.colorHex] = []
+                renderVariants(p);
+            });
         }
-        colors[v.colorHex].push(v)
-    })
 
-    let html = `<div class="color-row">`
+        function renderVariants(product) {
 
-    Object.keys(colors).forEach(hex=>{
-        html += `
+            const box = document.getElementById("variant-" + product.id)
+
+            if (!product.variants || product.variants.length === 0) return
+
+            const colors = {}
+
+            product.variants.forEach(v => {
+                if (!colors[v.colorHex]) {
+                    colors[v.colorHex] = []
+                }
+                colors[v.colorHex].push(v)
+            })
+
+            let html = `<div class="color-row">`
+
+            Object.keys(colors).forEach(hex => {
+                html += `
         <span 
             class="color-dot"
             style="background:${hex}"
             onclick="selectColor(${product.id}, '${hex}')">
         </span>`
-    })
+            })
 
-    html += `</div>`
+            html += `</div>`
 
-    Object.keys(colors).forEach(hex=>{
+            Object.keys(colors).forEach(hex => {
 
-        html += `<div class="size-row" id="size-${product.id}-${hex}" style="display:none">`
+                html += `<div class="size-row" id="size-${product.id}-${hex}" style="display:none">`
 
-        colors[hex].forEach(v=>{
-            html += `
+                colors[hex].forEach(v => {
+                    html += `
             <span 
                 class="size-btn"
                 onclick="selectVariant(${product.id}, '${hex}', '${v.sizeName}', ${v.priceModifier || 0}, this)">
                 ${v.sizeName}
             </span>
             `
-        })
+                })
 
-        html += `</div>`
-    })
+                html += `</div>`
+            })
 
-    box.innerHTML = html
-}
-function selectColor(productId, hex){
+            box.innerHTML = html
+        }
+        function selectColor(productId, hex) {
 
-    const sizes = document.querySelectorAll(`#variant-${productId} .size-row`)
-    sizes.forEach(s=>s.style.display="none")
+            const sizes = document.querySelectorAll(`#variant-${productId} .size-row`)
+            sizes.forEach(s => s.style.display = "none")
 
-    const target = document.getElementById(`size-${productId}-${hex}`)
-    if(target) target.style.display="flex"
+            const target = document.getElementById(`size-${productId}-${hex}`)
+            if (target) target.style.display = "flex"
 
-    if(!selectedVariants[productId])
-        selectedVariants[productId] = {}
+            if (!selectedVariants[productId])
+                selectedVariants[productId] = {}
 
-    selectedVariants[productId].color = hex
-}
-function selectVariant(productId, color, size, modifier, el){
+            selectedVariants[productId].color = hex
+        }
+        function selectVariant(productId, color, size, modifier, el) {
 
-    const priceEl = document.getElementById("price-" + productId)
+const priceEl = document.getElementById("price-" + productId)
 
-    const basePrice = Number(priceEl.dataset.base)
+const basePrice = Number(priceEl.dataset.base)
 
 const promoPrice = Number(priceEl.dataset.final || basePrice)
 
-    document.querySelectorAll(`#variant-${productId} .size-btn`)
-        .forEach(b=>b.classList.remove("active"))
+document.querySelectorAll(`#variant-${productId} .size-btn`)
+.forEach(b => b.classList.remove("active"))
 
-    el.classList.add("active")
+el.classList.add("active")
 
-    const newPrice = basePrice + modifier
+const newPrice = promoPrice + modifier
 
-    priceEl.innerText = newPrice.toLocaleString() + " đ"
+const saleEl = priceEl.querySelector(".sale-price")
 
-    selectedVariants[productId] = {
-        color: color,
-        size: size,
-        modifier: modifier,
-        finalPrice: newPrice
-    }
+if(saleEl){
+saleEl.innerText = newPrice.toLocaleString() + " đ"
+}else{
+priceEl.innerText = newPrice.toLocaleString() + " đ"
 }
-function renderCategories(products) {
 
-    const filters = document.getElementById("categoryFilters");
+selectedVariants[productId] = {
+color: color,
+size: size,
+modifier: modifier,
+finalPrice: newPrice
+}
 
-    const categories = [...new Set(products.map(p => p.categoryName))];
+}
+        function renderCategories(products) {
 
-    filters.innerHTML = `<button onclick="renderProducts(allProducts)">Tất cả</button>`;
+            const filters = document.getElementById("categoryFilters");
 
-    categories.forEach(c => {
-        filters.innerHTML += `
+            const categories = [...new Set(products.map(p => p.categoryName))];
+
+            filters.innerHTML = `<button onclick="renderProducts(allProducts)">Tất cả</button>`;
+
+            categories.forEach(c => {
+                filters.innerHTML += `
 <button onclick="filterCategory(\`${c}\`)">${c}</button>
 `;
-    });
+            });
 
-}
-
-
-function filterCategory(category) {
-
-    const filtered = allProducts.filter(p => p.categoryName == category);
-
-    renderProducts(filtered);
-
-}
+        }
 
 
-function renderFeatured(products) {
+        function filterCategory(category) {
 
-    if (!products.length) return;
+            const filtered = allProducts.filter(p => p.categoryName == category);
 
-    // copy mảng để không làm hỏng dữ liệu gốc
-    let sorted = [...products].sort((a, b) => b.rating - a.rating);
+            renderProducts(filtered);
 
-    let featured = sorted[0];
+        }
 
-    document.getElementById("featuredProduct").innerHTML = `
+
+        function renderFeatured(products) {
+
+            if (!products.length) return;
+
+            // copy mảng để không làm hỏng dữ liệu gốc
+            let sorted = [...products].sort((a, b) => b.rating - a.rating);
+
+            let featured = sorted[0];
+
+            document.getElementById("featuredProduct").innerHTML = `
     <div class="featured">
         <img src="${featured.thumbnail || 'https://via.placeholder.com/300'}">
         <div class="featured-info">
@@ -512,98 +586,59 @@ function renderFeatured(products) {
     </div>
     `;
 
-}
+        }
 
 
-let slides = document.querySelectorAll(".slide");
+        let slides = document.querySelectorAll(".slide");
 
-let index = 0;
+        let index = 0;
 
-setInterval(() => {
+        setInterval(() => {
 
-    slides[index].classList.remove("active");
+            slides[index].classList.remove("active");
 
-    index = (index + 1) % slides.length;
+            index = (index + 1) % slides.length;
 
-    slides[index].classList.add("active");
+            slides[index].classList.add("active");
 
-}, 4000);
-function addToCart(id,name,price,thumbnail){
+        }, 4000);
+        function addToCart(id, name, price, thumbnail) {
 
-    let cart = JSON.parse(localStorage.getItem("cart")) || []
+            let cart = JSON.parse(localStorage.getItem("cart")) || []
 
-    let variant = selectedVariants[id]
+            let variant = selectedVariants[id]
 
-    let finalPrice = price
+            let finalPrice = price
 
-    if(variant){
-        finalPrice = variant.finalPrice
-    }
+            if (variant) {
+                finalPrice = variant.finalPrice
+            }
 
-    const existing = cart.find(p => 
-        p.id === id &&
-        p.color === variant?.color &&
-        p.size === variant?.size
-    )
+            const existing = cart.find(p =>
+                p.id === id &&
+                p.color === variant?.color &&
+                p.size === variant?.size
+            )
 
-    if(existing){
-        existing.quantity += 1
-    }else{
-        cart.push({
-            id:id,
-            name:name,
-            price:finalPrice,
-            thumbnail:thumbnail,
-            color:variant?.color || null,
-            size:variant?.size || null,
-            quantity:1
-        })
-    }
+            if (existing) {
+                existing.quantity += 1
+            } else {
+                cart.push({
+                    id: id,
+                    name: name,
+                    price: finalPrice,
+                    thumbnail: thumbnail,
+                    color: variant?.color || null,
+                    size: variant?.size || null,
+                    quantity: 1
+                })
+            }
 
-    localStorage.setItem("cart", JSON.stringify(cart))
+            localStorage.setItem("cart", JSON.stringify(cart))
 
-    window.location.href = "cart.html"
-}
-products.forEach(p=>{
-
-let relation = productPromotions.find(pp=>pp.productId == p.id)
-
-if(!relation) return
-
-let promo = promotions.find(pr=>pr.id == relation.promotionId)
-
-if(!promo) return
-
-let now = new Date()
-
-if(!promo.isActive) return
-
-if(new Date(promo.startDate) > now) return
-
-if(new Date(promo.endDate) < now) return
-
-if(promo.discountType === "Percent"){
-
-p.discount = promo.discountValue
-
-p.finalPrice = p.price - (p.price * promo.discountValue / 100)
-
-}
-
-if(promo.discountType === "Amount"){
-
-p.discount = promo.discountValue
-
-p.finalPrice = p.price - promo.discountValue
-
-}
-
-})
-allProducts = products
-renderProducts(products)
-renderCategories(products)
-renderFeatured(products)
-</script>
+            window.location.href = "cart.html"
+        }
+    </script>
 
 </body>
 
