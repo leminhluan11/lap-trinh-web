@@ -159,8 +159,99 @@ namespace FashionEcommerce.Controllers
                 Message = "Đăng xuất thành công"
             });
         }
+        [HttpPost("refresh-token")]
+public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+{
+    var user = await _context.Users
+        .FirstOrDefaultAsync(u => u.Id == request.UserId);
+
+    if (user == null)
+    {
+        return Unauthorized(new AuthResponseDto
+        {
+            Success = false,
+            Message = "User không tồn tại"
+        });
     }
 
+    if (user.IsLocked)
+    {
+        return Unauthorized(new AuthResponseDto
+        {
+            Success = false,
+            Message = "Tài khoản đã bị khóa"
+        });
+    }
+
+    string newToken = _jwt.GenerateToken(user.Username!, user.Role!, user.Id);
+
+    return Ok(new AuthResponseDto
+    {
+        Success = true,
+        Message = "Refresh token thành công",
+        Token = newToken,
+        UserId = user.Id,
+        Username = user.Username,
+        Role = user.Role
+    });
+}
+[HttpPost("google-login")]
+public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginRequest request)
+{
+    if (string.IsNullOrWhiteSpace(request.GoogleId))
+    {
+        return BadRequest(new AuthResponseDto
+        {
+            Success = false,
+            Message = "GoogleId không hợp lệ"
+        });
+    }
+
+    var user = await _context.Users
+        .FirstOrDefaultAsync(u => u.GoogleId == request.GoogleId);
+
+    // Nếu user chưa tồn tại -> tạo mới
+    if (user == null)
+    {
+        user = new User
+        {
+            Username = request.Email, // dùng email làm username
+            Email = request.Email,
+            GoogleId = request.GoogleId,
+            FullName = request.FullName,
+            AvatarUrl = request.AvatarUrl,
+            Role = "Customer",
+            IsLocked = false,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+    }
+
+    if (user.IsLocked)
+    {
+        return Unauthorized(new AuthResponseDto
+        {
+            Success = false,
+            Message = "Tài khoản đã bị khóa"
+        });
+    }
+
+    string token = _jwt.GenerateToken(user.Username!, user.Role!, user.Id);
+
+    return Ok(new AuthResponseDto
+    {
+        Success = true,
+        Message = "Đăng nhập Google thành công",
+        Token = token,
+        UserId = user.Id,
+        Username = user.Username,
+        Role = user.Role
+    });
+}
+    }
+    
     // =========================
     // DTOs (Request) - giữ nguyên như bạn
     // =========================

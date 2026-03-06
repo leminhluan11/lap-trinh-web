@@ -126,7 +126,48 @@ namespace FashionEcommerce.Controllers
 
             return Ok(dto);
         }
+        /// <summary>
+/// POST /api/promotions/{promotionId}/products
+/// Gắn sản phẩm vào chương trình khuyến mãi
+/// </summary>
+[Authorize(Roles = "Admin")]
+[HttpPost("{promotionId}/products")]
+public async Task<ActionResult> AddProductToPromotion(int promotionId, [FromBody] AddProductPromotionRequest request)
+{
+    var promotion = await _context.Promotions.FindAsync(promotionId);
 
+    if (promotion == null)
+        return NotFound(new { message = "Promotion không tồn tại" });
+
+    var product = await _context.Products.FindAsync(request.ProductId);
+
+    if (product == null)
+        return NotFound(new { message = "Product không tồn tại" });
+
+    // kiểm tra đã tồn tại chưa
+    var exists = await _context.ProductPromotions
+        .AnyAsync(pp => pp.ProductId == request.ProductId && pp.PromotionId == promotionId);
+
+    if (exists)
+        return BadRequest(new { message = "Sản phẩm đã nằm trong promotion này" });
+
+    var productPromotion = new ProductPromotion
+    {
+        ProductId = request.ProductId,
+        PromotionId = promotionId
+    };
+
+    _context.ProductPromotions.Add(productPromotion);
+
+    await _context.SaveChangesAsync();
+
+    return Ok(new
+    {
+        message = "Đã thêm sản phẩm vào promotion",
+        productId = request.ProductId,
+        promotionId = promotionId
+    });
+}
         /// <summary>
         /// PUT /api/admin/promotions/{id} - Cập nhật chương trình khuyến mãi
         /// </summary>
@@ -168,7 +209,24 @@ namespace FashionEcommerce.Controllers
 
             return Ok(new { message = "Cập nhật chương trình khuyến mãi thành công", promotion.Id });
         }
+        /// <summary>
+/// GET /api/productpromotions
+/// Lấy danh sách sản phẩm đang có khuyến mãi
+/// </summary>
+[HttpGet("/api/productpromotions")]
+public async Task<ActionResult<IEnumerable<ProductPromotionDto>>> GetProductPromotions()
+{
+    var data = await _context.ProductPromotions
+        .Select(pp => new ProductPromotionDto
+        {
+            Id = pp.Id,
+            ProductId = pp.ProductId,
+            PromotionId = pp.PromotionId
+        })
+        .ToListAsync();
 
+    return Ok(data);
+}
         /// <summary>
         /// POST /api/admin/coupons/generate - Tạo voucher
         /// </summary>
@@ -265,4 +323,8 @@ namespace FashionEcommerce.Controllers
         public int PromotionId { get; set; }
         public DateTime? ExpiryDate { get; set; }
     }
+    public class AddProductPromotionRequest
+{
+    public int ProductId { get; set; }
+}
 }
