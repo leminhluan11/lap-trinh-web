@@ -9,7 +9,6 @@ namespace FashionEcommerce.Controllers
 {
     [ApiController]
     [Route("api/orders")]
-    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly FashionEcommerceDbContext _context;
@@ -17,6 +16,128 @@ namespace FashionEcommerce.Controllers
         public OrdersController(FashionEcommerceDbContext context)
         {
             _context = context;
+        }
+
+        /// <summary>
+        /// POST /api/orders - Tạo đơn hàng mới (Client)
+        /// </summary>
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult<CreateOrderResponse>> CreateOrder([FromBody] CreateOrderRequest request)
+        {
+            try
+            {
+                var order = new Order
+                {
+                    OrderCode = request.OrderCode,
+                    ShippingName = request.ShippingName,
+                    ShippingAddress = request.ShippingAddress,
+                    ShippingPhone = request.ShippingPhone,
+                    TotalAmount = request.TotalAmount,
+                    DiscountAmount = request.DiscountAmount,
+                    CouponCode = request.CouponCode,
+                    ShippingFee = request.ShippingFee,
+                    FinalAmount = request.FinalAmount,
+                    PaymentMethod = request.PaymentMethod,
+                    PaymentStatus = request.PaymentStatus,
+                    Status = request.Status,
+                    OrderDate = DateTime.UtcNow
+                };
+
+                // Lấy userId từ token nếu có
+                var userIdClaim = User.FindFirst("Id")?.Value;
+                if (!string.IsNullOrEmpty(userIdClaim) && int.TryParse(userIdClaim, out int userId))
+                {
+                    order.UserId = userId;
+                }
+
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+
+                // Thêm chi tiết đơn hàng
+                foreach (var item in request.OrderDetails)
+                {
+                    // Kiểm tra ProductVariantId có tồn tại không, nếu không thì tạo mới
+                    var variant = await _context.ProductVariants.FindAsync(item.ProductVariantId);
+                    
+                    int finalVariantId;
+                    
+                    // Nếu không tìm thấy variant, thử tìm theo ProductId
+                    if (variant == null)
+                    {
+                        var productExists = await _context.Products.AnyAsync(p => p.Id == item.ProductVariantId);
+                        if (productExists)
+                        {
+                            // Lấy color và size đầu tiên từ database
+                            var defaultColor = await _context.MasterColors.FirstOrDefaultAsync();
+                            var defaultSize = await _context.MasterSizes.FirstOrDefaultAsync();
+                            
+                            if (defaultColor == null || defaultSize == null)
+                            {
+                                return BadRequest(new CreateOrderResponse
+                                {
+                                    Success = false,
+                                    Message = "Hệ thống chưa có thông tin màu sắc hoặc kích thước"
+                                });
+                            }
+
+                            // Tạo variant tạm thời cho sản phẩm
+                            variant = new ProductVariant
+                            {
+                                ProductId = item.ProductVariantId,
+                                ColorId = defaultColor.Id,
+                                SizeId = defaultSize.Id,
+                                Sku = item.Sku,
+                                Quantity = item.Quantity,
+                                PriceModifier = 0
+                            };
+                            _context.ProductVariants.Add(variant);
+                            await _context.SaveChangesAsync();
+                            finalVariantId = variant.Id;
+                        }
+                        else
+                        {
+                            // Nếu product cũng không tồn tại, dùng variantId = 0
+                            finalVariantId = 0;
+                        }
+                    }
+                    else
+                    {
+                        finalVariantId = variant.Id;
+                    }
+
+                    var orderDetail = new OrderDetail
+                    {
+                        OrderId = order.Id,
+                        ProductVariantId = finalVariantId,
+                        Snapshot_ProductName = item.ProductName,
+                        Snapshot_Sku = item.Sku,
+                        Snapshot_Thumbnail = item.Thumbnail,
+                        Quantity = item.Quantity,
+                        UnitPrice = item.UnitPrice
+                    };
+                    _context.OrderDetails.Add(orderDetail);
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new CreateOrderResponse
+                {
+                    Success = true,
+                    Message = "Đặt hàng thành công!",
+                    OrderId = order.Id,
+                    OrderCode = order.OrderCode
+                });
+            }
+            catch (Exception ex)
+            {
+                var innerMessage = ex.InnerException?.Message ?? ex.Message;
+                return StatusCode(500, new CreateOrderResponse
+                {
+                    Success = false,
+                    Message = "Có lỗi xảy ra: " + innerMessage
+                });
+            }
         }
 
         /// <summary>
