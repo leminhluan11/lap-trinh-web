@@ -21,8 +21,8 @@
       "PackagePath": "staticwebassets\\donhang.html"
     },
     {
-      "Id": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\index.html",
-      "PackagePath": "staticwebassets\\index.html"
+      "Id": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\login.html",
+      "PackagePath": "staticwebassets\\login.html"
     },
     {
       "Id": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\quanlysanpham.html",
@@ -31,14 +31,6 @@
     {
       "Id": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\sanpham.html",
       "PackagePath": "staticwebassets\\sanpham.html"
-    },
-    {
-      "Id": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\script.js",
-      "PackagePath": "staticwebassets\\script.js"
-    },
-    {
-      "Id": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\style.css",
-      "PackagePath": "staticwebassets\\style.css"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.lap_trinh_web.props",

@@ -18,7 +18,7 @@ public class User
     [Required, MaxLength(100), EmailAddress]
     public string Email { get; set; } = null!;
 
-    [MaxLength(100)]
+    [MaxLength(1000)]
     public string? GoogleId { get; set; }
 
     public DateTime? DateOfBirth { get; set; }
