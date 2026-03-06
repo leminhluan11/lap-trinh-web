@@ -25,6 +25,12 @@ public class OrderDetail
     [Column(TypeName = "decimal(18,2)")]
     public decimal UnitPrice { get; set; }
 
+    [MaxLength(50)]
+    public string? Color { get; set; }
+
+    [MaxLength(50)]
+    public string? Size { get; set; }
+
     [ForeignKey(nameof(OrderId))]
     public virtual Order Order { get; set; } = null!;
 

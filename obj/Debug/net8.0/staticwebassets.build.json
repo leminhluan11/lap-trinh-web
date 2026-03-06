@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "yslkz10JefpkLtHRCewCYsbr0FO2gi2MZsgHgrtey8A=",
+  "Hash": "2gM6yo1eSJa9qdGLHJlRQqT7YIUOjifLgi64m7gA7OA=",
   "Source": "lap_trinh_web",
   "BasePath": "_content/lap_trinh_web",
   "Mode": "Default",
@@ -34,6 +34,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\cart.html"
+    },
+    {
+      "Identity": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\coupon.html",
+      "SourceId": "lap_trinh_web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\",
+      "BasePath": "_content/lap_trinh_web",
+      "RelativePath": "coupon.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\coupon.html"
     },
     {
       "Identity": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\dashboard.html",
@@ -72,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\dathang.html"
+    },
+    {
+      "Identity": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\donhang.html",
+      "SourceId": "lap_trinh_web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\",
+      "BasePath": "_content/lap_trinh_web",
+      "RelativePath": "donhang.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\donhang.html"
     },
     {
       "Identity": "C:\\Users\\nguyenduchieu\\Downloads\\Lập trình\\laptrinhungdungweb\\ungdungweb\\lap-trinh-web\\wwwroot\\index.html",

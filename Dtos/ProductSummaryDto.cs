@@ -13,4 +13,5 @@ public class ProductSummaryDto
     public string CategoryName { get; set; } = null!;
     public double Rating { get; set; }
 public int ReviewCount { get; set; }
+public List<ProductVariantDto>? Variants { get; set; }
 }
