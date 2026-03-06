@@ -22,34 +22,52 @@ namespace FashionEcommerce.Controllers
         /// GET /api/admin/products - Danh sách sản phẩm
         /// </summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductSummaryDto>>> GetProducts()
-        {
-            var products = await _context.Products
-.Include(p => p.Category)
-.Select(p => new ProductSummaryDto
+public async Task<ActionResult<IEnumerable<ProductSummaryDto>>> GetProducts()
 {
-    Id = p.Id,
-    Name = p.Name,
-    Slug = p.Slug,
-    Price = p.Price,
-    Description = p.Description,
-    Thumbnail = p.Thumbnail,
-    IsActive = p.IsActive,
-    CategoryId = p.CategoryId,
-    CategoryName = p.Category.Name,
+    var products = await _context.Products
+        .Include(p => p.Category)
+        .Include(p => p.Variants)
+            .ThenInclude(v => v.Color)
+        .Include(p => p.Variants)
+            .ThenInclude(v => v.Size)
 
-    Rating = _context.ProductReviews
-        .Where(r => r.ProductId == p.Id)
-        .Select(r => (double?)r.Rating)
-        .Average() ?? 0,
+        .Select(p => new ProductSummaryDto
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Slug = p.Slug,
+            Price = p.Price,
+            Description = p.Description,
+            Thumbnail = p.Thumbnail,
+            IsActive = p.IsActive,
+            CategoryId = p.CategoryId,
+            CategoryName = p.Category.Name,
 
-    ReviewCount = _context.ProductReviews
-        .Count(r => r.ProductId == p.Id)
-})
-.ToListAsync();
+            Rating = _context.ProductReviews
+                .Where(r => r.ProductId == p.Id)
+                .Select(r => (double?)r.Rating)
+                .Average() ?? 0,
 
-            return Ok(products);
-        }
+            ReviewCount = _context.ProductReviews
+                .Count(r => r.ProductId == p.Id),
+
+            Variants = p.Variants.Select(v => new ProductVariantDto
+            {
+                Id = v.Id,
+                ColorId = v.ColorId,
+                SizeId = v.SizeId,
+                Sku = v.Sku,
+                Quantity = v.Quantity,
+                PriceModifier = v.PriceModifier,
+
+                ColorHex = v.Color.HexCode,
+                SizeName = v.Size.Name
+            }).ToList()
+        })
+        .ToListAsync();
+
+    return Ok(products);
+}
 
         /// <summary>
         /// POST /api/admin/products - Tạo mới sản phẩm
@@ -109,6 +127,9 @@ namespace FashionEcommerce.Controllers
                 .Include(p => p.Category)
                 .Include(p => p.Images)
                 .Include(p => p.Variants)
+    .ThenInclude(v => v.Color)
+.Include(p => p.Variants)
+    .ThenInclude(v => v.Size)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
@@ -135,14 +156,17 @@ namespace FashionEcommerce.Controllers
                     SortOrder = i.SortOrder
                 }).ToList(),
                 Variants = product.Variants.Select(v => new ProductVariantDto
-                {
-                    Id = v.Id,
-                    ColorId = v.ColorId,
-                    SizeId = v.SizeId,
-                    Sku = v.Sku,
-                    Quantity = v.Quantity,
-                    PriceModifier = v.PriceModifier
-                }).ToList()
+{
+    Id = v.Id,
+    ColorId = v.ColorId,
+    SizeId = v.SizeId,
+    Sku = v.Sku,
+    Quantity = v.Quantity,
+    PriceModifier = v.PriceModifier,
+
+    ColorHex = v.Color.HexCode,
+    SizeName = v.Size.Name
+}).ToList()
             };
 
             return Ok(dto);
@@ -236,7 +260,7 @@ public async Task<IActionResult> GetFeaturedProduct()
     return Ok(product);
 }
     }
-
+    
     // Giữ nguyên request DTO cũ của bạn
     public class CreateProductRequest
     {

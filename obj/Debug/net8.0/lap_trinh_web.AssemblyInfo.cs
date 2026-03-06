@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("lap_trinh_web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+89f87aa3489acbf1b0f1b1ac2f1635cb072469c2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+26c24b12b86cb99178a5e4f5a2b209d07fdfb626")]
 [assembly: System.Reflection.AssemblyProductAttribute("lap_trinh_web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("lap_trinh_web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

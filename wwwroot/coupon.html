@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Promotion Manager</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            margin: 0;
+        }
+
+        header {
+            background: black;
+            color: white;
+            padding: 15px 40px;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-add {
+            background: black;
+            color: white;
+        }
+
+        .btn-edit {
+            background: #1677ff;
+            color: white;
+        }
+
+        .btn-coupon {
+            background: #52c41a;
+            color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            width: 400px;
+            border-radius: 10px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        header {
+    background: black;
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #ff4d4d;
+            transform: scale(1.2);
+        }
+        .nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.nav-links a:hover {
+    background: #334155;
+}
+.navbar{
+    width:100%;
+    background:#1e293b;
+    padding:15px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-radius:10px;
+    margin-bottom:30px;
+}
+
+.navbar h2{
+    color:white;
+    margin:0;
+    font-size:20px;
+}
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>Promotion Manager</h2>
+        <div class="nav-links">
+        <a href="quanlysanpham.html">Quản lý sản phẩm</a>
+        <a href="coupon.html">Khuyến mãi</a>
+    </div>
+    </header>
+
+    <div class="container">
+
+        <div class="card">
+
+            <button class="btn-add" onclick="openCreate()">+ Create Promotion</button>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Discount</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Active</th>
+                        <th>Priority</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody id="promotionTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- CREATE / UPDATE -->
+
+    <div class="modal" id="promotionModal">
+
+        <div class="modal-content">
+
+            <h3 id="modalTitle">Create Promotion</h3>
+
+            <input id="name" placeholder="Name">
+
+            <select id="discountType">
+                <option value="PERCENTAGE">Percentage</option>
+                <option value="FIXED_AMOUNT">Fixed Amount</option>
+            </select>
+
+            <input id="discountValue" type="number" placeholder="Discount value">
+
+            <label>Start date</label>
+            <input id="startDate" type="datetime-local">
+
+            <label>End date</label>
+            <input id="endDate" type="datetime-local">
+
+            <input id="priority" type="number" placeholder="Priority">
+
+            <button onclick="savePromotion()">Save</button>
+
+        </div>
+
+    </div>
+
+
+    <!-- GENERATE COUPON -->
+
+    <div class="modal" id="couponModal">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3>Generate Coupon</h3>
+                <button class="close-btn" onclick="closeCouponModal()">×</button>
+            </div>
+
+            <div class="modal-body">
+                <label>UserId</label>
+                <input type="text" id="couponUserId">
+
+                <label>Expiry Date</label>
+                <input type="datetime-local" id="couponExpiry">
+
+                <button onclick="generateCoupon()">Generate</button>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script>
+
+        const API = "http://localhost:5000/api/promotions"
+
+        const token = localStorage.getItem("token")
+
+        let editingId = null
+        let currentPromotionId = null
+
+        loadPromotions()
+
+        async function loadPromotions() {
+
+            const res = await fetch(API, {
+                headers: { Authorization: "Bearer " + token }
+            })
+
+            const data = await res.json()
+
+            const table = document.getElementById("promotionTable")
+
+            table.innerHTML = ""
+
+            data.forEach(p => {
+
+                table.innerHTML += `
+
+<tr>
+
+<td>${p.id}</td>
+<td>${p.name}</td>
+<td>${p.discountType} ${p.discountValue}</td>
+<td>${formatDate(p.startDate)}</td>
+<td>${formatDate(p.endDate)}</td>
+<td>${p.isActive}</td>
+<td>${p.priority}</td>
+
+<td>
+
+<button class="btn-edit" onclick="editPromotion(${p.id})">Edit</button>
+
+<button class="btn-coupon" onclick="openCoupon(${p.id})">Generate Coupon</button>
+
+</td>
+
+</tr>
+
+`
+
+            })
+
+        }
+
+
+        function openCreate() {
+
+            editingId = null
+
+            document.getElementById("promotionModal").style.display = "flex"
+
+        }
+
+
+        async function editPromotion(id) {
+
+            editingId = id
+
+            const res = await fetch(API + "/" + id, {
+                headers: { Authorization: "Bearer " + token }
+            })
+
+            const p = await res.json()
+
+            document.getElementById("name").value = p.name
+            document.getElementById("discountType").value = p.discountType
+            document.getElementById("discountValue").value = p.discountValue
+            document.getElementById("startDate").value = p.startDate.substring(0, 16)
+            document.getElementById("endDate").value = p.endDate.substring(0, 16)
+            document.getElementById("priority").value = p.priority
+
+            document.getElementById("promotionModal").style.display = "flex"
+
+        }
+
+
+        async function savePromotion() {
+
+            const data = {
+
+                name: document.getElementById("name").value,
+
+                discountType: document.getElementById("discountType").value,
+
+                discountValue: Number(document.getElementById("discountValue").value),
+
+                startDate: document.getElementById("startDate").value,
+
+                endDate: document.getElementById("endDate").value,
+
+                priority: Number(document.getElementById("priority").value),
+
+                isActive: true
+
+            }
+
+            if (editingId == null) {
+
+                await fetch(API, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + token
+                    },
+                    body: JSON.stringify(data)
+                })
+
+            } else {
+
+                await fetch(API + "/" + editingId, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + token
+                    },
+                    body: JSON.stringify(data)
+                })
+
+            }
+
+            document.getElementById("promotionModal").style.display = "none"
+
+            loadPromotions()
+
+        }
+
+
+        function openCoupon(promotionId) {
+
+            currentPromotionId = promotionId
+
+            document.getElementById("couponModal").style.display = "flex"
+
+        }
+
+
+        async function generateCoupon() {
+
+    const userId = document.getElementById("couponUserId").value
+    const expiry = document.getElementById("couponExpiry").value
+
+    if (!userId) {
+        alert("Vui lòng nhập UserId")
+        return
+    }
+
+    const data = {
+        userId: Number(userId),
+        promotionId: currentPromotionId,
+        expiryDate: expiry
+    }
+
+    try {
+
+        const res = await fetch(API + "/coupons/generate", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token
+            },
+
+            body: JSON.stringify(data)
+
+        })
+
+        if (!res.ok) {
+            alert("Mã người dùng không hợp lệ")
+            return
+        }
+
+        const result = await res.json()
+
+        alert("Coupon created: " + result.coupon.code)
+
+        document.getElementById("couponModal").style.display = "none"
+
+    } catch (error) {
+
+        alert("Mã người dùng không hợp lệ")
+
+    }
+}
+        function closeCouponModal(){
+    document.getElementById("couponModal").style.display = "none";
+}
+
+        function formatDate(d) {
+
+            return new Date(d).toLocaleDateString()
+
+        }
+
+    </script>
+
+</body>
+
+</html>
