@@ -223,18 +223,19 @@
             font-size: 18px;
             font-weight: bold;
         }
-        .old-price{
-color:#999;
-font-size:13px;
-text-decoration:line-through;
-margin-right:6px;
-}
 
-.sale-price{
-color:red;
-font-size:18px;
-font-weight:bold;
-}
+        .old-price {
+            color: #999;
+            font-size: 13px;
+            text-decoration: line-through;
+            margin-right: 6px;
+        }
+
+        .sale-price {
+            color: red;
+            font-size: 18px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -318,16 +319,16 @@ font-weight:bold;
             }).then(res => res.json()),
 
             fetch("http://localhost:5000/api/promotions", {
-    headers: token ? {
-        "Authorization": "Bearer " + token
-    } : {}
-}).then(res => res.json()),
+                headers: token ? {
+                    "Authorization": "Bearer " + token
+                } : {}
+            }).then(res => res.json()),
 
             fetch("http://localhost:5000/api/productpromotions", {
-    headers: token ? {
-        "Authorization": "Bearer " + token
-    } : {}
-}).then(res => res.json())
+                headers: token ? {
+                    "Authorization": "Bearer " + token
+                } : {}
+            }).then(res => res.json())
 
         ])
             .then(([products, promotions, productPromotions]) => {
@@ -402,9 +403,9 @@ font-weight:bold;
 
                 let priceHTML = ""
 
-if (p.hasPromotion) {
+                if (p.hasPromotion) {
 
-priceHTML = `
+                    priceHTML = `
 <div id="price-${p.id}" data-base="${p.oldPrice}" data-final="${p.price}">
 <span class="old-price">
 ${p.oldPrice.toLocaleString()} đ
@@ -415,15 +416,15 @@ ${p.price.toLocaleString()} đ
 </div>
 `
 
-} else {
+                } else {
 
-priceHTML = `
+                    priceHTML = `
 <div class="sale-price" id="price-${p.id}" data-base="${p.price}">
 ${p.price.toLocaleString()} đ
 </div>
 `
 
-}
+                }
 
                 container.innerHTML += `
         <div class="product">
@@ -508,35 +509,35 @@ ${p.price.toLocaleString()} đ
         }
         function selectVariant(productId, color, size, modifier, el) {
 
-const priceEl = document.getElementById("price-" + productId)
+            const priceEl = document.getElementById("price-" + productId)
 
-const basePrice = Number(priceEl.dataset.base)
+            const basePrice = Number(priceEl.dataset.base)
 
-const promoPrice = Number(priceEl.dataset.final || basePrice)
+            const promoPrice = Number(priceEl.dataset.final || basePrice)
 
-document.querySelectorAll(`#variant-${productId} .size-btn`)
-.forEach(b => b.classList.remove("active"))
+            document.querySelectorAll(`#variant-${productId} .size-btn`)
+                .forEach(b => b.classList.remove("active"))
 
-el.classList.add("active")
+            el.classList.add("active")
 
-const newPrice = promoPrice + modifier
+            const newPrice = promoPrice + modifier
 
-const saleEl = priceEl.querySelector(".sale-price")
+            const saleEl = priceEl.querySelector(".sale-price")
 
-if(saleEl){
-saleEl.innerText = newPrice.toLocaleString() + " đ"
-}else{
-priceEl.innerText = newPrice.toLocaleString() + " đ"
-}
+            if (saleEl) {
+                saleEl.innerText = newPrice.toLocaleString() + " đ"
+            } else {
+                priceEl.innerText = newPrice.toLocaleString() + " đ"
+            }
 
-selectedVariants[productId] = {
-color: color,
-size: size,
-modifier: modifier,
-finalPrice: newPrice
-}
+            selectedVariants[productId] = {
+                color: color,
+                size: size,
+                modifier: modifier,
+                finalPrice: newPrice
+            }
 
-}
+        }
         function renderCategories(products) {
 
             const filters = document.getElementById("categoryFilters");

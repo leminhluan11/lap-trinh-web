@@ -260,8 +260,7 @@ public async Task<IActionResult> GetFeaturedProduct()
     return Ok(product);
 }
     }
-    
-    // Giữ nguyên request DTO cũ của bạn
+     // Giữ nguyên request DTO cũ của bạn
     public class CreateProductRequest
     {
         public string Name { get; set; } = null!;

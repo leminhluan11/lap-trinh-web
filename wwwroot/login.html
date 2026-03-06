@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fashion Ecommerce - Đăng nhập / Đăng ký</title>
+
+  <!-- Google OAuth SDK -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 30px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      background: #f1f1f1;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.3s;
+    }
+
+    .tab.active {
+      background: #667eea;
+      color: white;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .form {
+      display: none;
+    }
+
+    .form.active {
+      display: block;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #5a6fd1;
+    }
+
+    .google-login {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .switch-text {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    .switch-text a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Tab chuyển giữa Login và Register -->
+    <div class="tabs">
+      <button class="tab active" onclick="showForm('login')">Đăng nhập</button>
+      <button class="tab" onclick="showForm('register')">Đăng ký</button>
+    </div>
+
+    <!-- Form Đăng nhập -->
+    <div id="login-form" class="form active">
+      <h2>Đăng nhập</h2>
+      <form id="loginForm">
+        <input type="text" id="login-username" placeholder="Tên đăng nhập" required />
+        <input type="password" id="login-password" placeholder="Mật khẩu" required />
+        <button type="submit">Đăng nhập</button>
+      </form>
+
+      <div class="google-login">
+        <p>Hoặc đăng nhập bằng Google:</p>
+        <div id="googleSignInButton"></div> <!-- Button Google sẽ tự render vào đây -->
+      </div>
+
+      <p class="switch-text">
+        Chưa có tài khoản? <a href="#" onclick="showForm('register')">Đăng ký ngay</a>
+      </p>
+      <p id="login-error" class="error"></p>
+    </div>
+
+    <!-- Form Đăng ký -->
+    <div id="register-form" class="form">
+      <h2>Đăng ký</h2>
+      <form id="registerForm">
+        <input type="text" id="reg-username" placeholder="Tên đăng nhập" required />
+        <input type="email" id="reg-email" placeholder="Email" required />
+        <input type="password" id="reg-password" placeholder="Mật khẩu" required />
+        <input type="text" id="reg-fullname" placeholder="Họ và tên" />
+        <input type="text" id="reg-phone" placeholder="Số điện thoại" />
+        <button type="submit">Đăng ký</button>
+      </form>
+
+      <p class="switch-text">
+        Đã có tài khoản? <a href="#" onclick="showForm('login')">Đăng nhập</a>
+      </p>
+      <p id="register-error" class="error"></p>
+    </div>
+  </div>
+
+  <script>
+    // Chuyển tab Login / Register
+    function showForm(formType) {
+      document.querySelectorAll('.form').forEach(form => form.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+
+      document.getElementById(`${formType}-form`).classList.add('active');
+      document.querySelector(`.tab[onclick="showForm('${formType}')"]`).classList.add('active');
+    }
+
+    // Xử lý form Đăng nhập bằng username/password
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+      const errorEl = document.getElementById('login-error');
+
+      if (!username || !password) {
+        errorEl.textContent = 'Vui lòng nhập đầy đủ tên đăng nhập và mật khẩu';
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+
+        const data = await response.json();
+
+        console.log('Response từ API đăng nhập:', data); // Debug
+
+        if (!response.ok) {
+          throw new Error(data.message || `Đăng nhập thất bại (mã lỗi: ${response.status})`);
+        }
+
+        const token = data.token;
+        if (!token) {
+          throw new Error('Không tìm thấy token trong phản hồi từ server');
+        }
+
+        localStorage.setItem('token', token);
+
+        // Kiểm tra role để chuyển trang
+        const role = data.role;
+        alert('Đăng nhập thành công! Role: ' + role);
+
+        if (role === 'Admin') {
+          window.location.href = 'quanlysanpham.html'; // Admin → trang quản lý
+        } else {
+          window.location.href = 'sanpham.html'; // Customer hoặc khác → trang sản phẩm
+        }
+      } catch (err) {
+        console.error('Lỗi đăng nhập:', err);
+        errorEl.textContent = err.message;
+      }
+    });
+
+    // Xử lý đăng nhập bằng Google
+    function handleGoogleLogin(response) {
+  fetch('http://localhost:5000/api/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ googleId: response.credential }),
+  })
+  .then(res => {
+    console.log('Google login status:', res.status); // In status (400 ở đây)
+    return res.json();
+  })
+  .then(data => {
+    console.log('Response Google login đầy đủ:', data); // In toàn bộ object
+
+    if (data.success) {
+      const token = data.token;
+      if (!token) throw new Error('Không tìm thấy token');
+      localStorage.setItem('token', token);
+      alert('Đăng nhập Google thành công!');
+      window.location.href = 'sanpham.html'; // Hoặc quanlysanpham.html nếu admin
+    } else {
+      // Hiển thị message lỗi chi tiết từ backend
+      document.getElementById('login-error').textContent = data.message || 'Lỗi đăng nhập Google';
+    }
+  })
+  .catch(err => {
+    console.error('Lỗi Google:', err);
+    document.getElementById('login-error').textContent = 'Lỗi kết nối hoặc server';
+  });
+}
+
+    // Xử lý form Đăng ký
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById('reg-username').value.trim();
+      const password = document.getElementById('reg-password').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const fullName = document.getElementById('reg-fullname').value.trim();
+      const phoneNumber = document.getElementById('reg-phone').value.trim();
+      const errorEl = document.getElementById('register-error');
+
+      if (!username || !password || !email) {
+        errorEl.textContent = 'Vui lòng điền đầy đủ các trường bắt buộc (Username, Password, Email)';
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:5000/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, email, fullName, phoneNumber }),
+        });
+
+        const data = await response.json();
+
+        console.log('Response từ API đăng ký:', data);
+
+        if (!response.ok) {
+          throw new Error(data.message || `Đăng ký thất bại (mã lỗi: ${response.status})`);
+        }
+
+        alert('Đăng ký thành công! Hãy đăng nhập.');
+        showForm('login');
+      } catch (err) {
+        console.error('Lỗi đăng ký:', err);
+        errorEl.textContent = err.message;
+      }
+    });
+
+    // Load Google SDK và render button đăng nhập Google
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: '818446677807-neij3718neqt6oh6g4n6dhhilqareb8d.apps.googleusercontent.com',
+        callback: handleGoogleLogin,
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("googleSignInButton"),
+        { 
+          theme: "outline", 
+          size: "large", 
+          text: "signin_with", 
+          shape: "rectangular", 
+          logo_alignment: "left" 
+        }
+      );
+    };
+  </script>
+</body>
+</html>

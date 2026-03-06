@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý đơn hàng - Fashion Store</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: #000;
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        nav a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .orders-table {
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .orders-table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .orders-table tr:hover {
+            background: #f9f9f9;
+            cursor: pointer;
+        }
+
+        .orders-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-0 { background: #fff3cd; color: #856404; }
+        .status-1 { background: #cce5ff; color: #004085; }
+        .status-2 { background: #d4edda; color: #155724; }
+        .status-3 { background: #f8d7da; color: #721c24; }
+        .status-4 { background: #e2e3e5; color: #383d41; }
+
+        .payment-badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .payment-paid { background: #d4edda; color: #155724; }
+        .payment-unpaid { background: #f8d7da; color: #721c24; }
+
+        .empty-message {
+            text-align: center;
+            padding: 60px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 25px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .order-detail-header {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .order-detail-header h2 {
+            margin: 0 0 10px 0;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .detail-item label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .detail-item span {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .order-items-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-items-list {
+            border: 1px solid #eee;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .order-item-info {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .order-item-variant {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .order-item-price {
+            text-align: right;
+        }
+
+        .order-item-price .price {
+            font-weight: bold;
+            color: red;
+        }
+
+        .order-item-price .qty {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #eee;
+        }
+
+        .order-total-row {
+            display: flex;
+            justify-content: space-between;
+            width: 250px;
+            margin-bottom: 8px;
+        }
+
+        .order-total-row.final {
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+        }
+
+        .access-denied {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .access-denied h2 {
+            color: red;
+        }
+
+        footer {
+            background: #111;
+            color: white;
+            padding: 30px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Fashion Store - Admin</h1>
+        <nav>
+            <a href="index.html">Trang chủ</a>
+            <a href="dashboard.html">Dashboard</a>
+        </nav>
+    </header>
+
+    <div class="container" id="mainContent">
+    </div>
+
+    <footer>
+        <p>Fashion Store</p>
+        <p>Địa chỉ: 123 Nguyễn Trãi, Hà Nội</p>
+    </footer>
+
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_ORDERS = "http://localhost:5000/api/orders";
+        
+        function decodeJWT(token) {
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                }).join(''));
+                return JSON.parse(jsonPayload);
+            } catch (e) {
+                console.error('JWT decode error:', e);
+                return null;
+            }
+        }
+
+        function checkAdmin() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'index.html';
+                return null;
+            }
+
+            const payload = decodeJWT(token);
+            console.log('JWT Payload:', payload);
+            
+            if (!payload) {
+                localStorage.removeItem('token');
+                window.location.href = 'index.html';
+                return null;
+            }
+
+            const userRole = payload.role || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+            console.log('User role:', userRole);
+            
+            if (userRole !== 'Admin') {
+                return false;
+            }
+            return payload;
+        }
+
+        function init() {
+            const user = checkAdmin();
+            
+            if (user === null) return;
+            
+            if (user === false) {
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="access-denied">
+                        <h2>🚫 Truy cập bị từ chối</h2>
+                        <p>Chỉ Admin mới có quyền truy cập trang này.</p>
+                        <a href="index.html" class="back-btn">Về trang chủ</a>
+                    </div>
+                `;
+                return;
+            }
+
+            loadOrders();
+        }
+
+        function loadOrders() {
+            const token = localStorage.getItem('token');
+            
+            fetch(API_ORDERS, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            .then(res => res.json())
+            .then(orders => {
+                renderOrders(orders);
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="empty-message">
+                        <p>Không thể tải danh sách đơn hàng</p>
+                    </div>
+                `;
+            });
+        }
+
+        function renderOrders(orders) {
+            if (!orders || orders.length === 0) {
+                document.getElementById('mainContent').innerHTML = `
+                    <h2 class="page-title">Quản lý đơn hàng</h2>
+                    <div class="empty-message">
+                        <p>Chưa có đơn hàng nào</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const statusText = ['Chờ xử lý', 'Đang giao', 'Đã giao', 'Đã hủy', 'Hoàn trả'];
+            const statusClass = ['status-0', 'status-1', 'status-2', 'status-3', 'status-4'];
+
+            let html = `
+                <h2 class="page-title">Quản lý đơn hàng (${orders.length} đơn)</h2>
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Ngày đặt</th>
+                            <th>Khách hàng</th>
+                            <th>Số điện thoại</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Thanh toán</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            orders.forEach(order => {
+                const date = new Date(order.createdAt || order.orderDate);
+                const formattedDate = date.toLocaleDateString('vi-VN', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                html += `
+                    <tr onclick="viewOrderDetail(${order.id})">
+                        <td><strong>${order.orderCode}</strong></td>
+                        <td>${formattedDate}</td>
+                        <td>${order.shippingName || 'N/A'}</td>
+                        <td>${order.shippingPhone || 'N/A'}</td>
+                        <td><strong>${(order.finalAmount || order.totalAmount).toLocaleString()} đ</strong></td>
+                        <td><span class="status-badge ${statusClass[order.status] || 'status-0'}">${statusText[order.status] || 'Chờ xử lý'}</span></td>
+                        <td><span class="payment-badge ${order.paymentStatus === 'Paid' ? 'payment-paid' : 'payment-unpaid'}">${order.paymentStatus === 'Paid' ? 'Đã thanh toán' : 'Chưa thanh toán'}</span></td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+
+            document.getElementById('mainContent').innerHTML = html;
+        }
+
+        function viewOrderDetail(orderId) {
+            const token = localStorage.getItem('token');
+            
+            fetch(API_ORDERS + '/' + orderId, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            })
+            .then(res => res.json())
+            .then(order => {
+                showOrderModal(order);
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Không thể tải chi tiết đơn hàng');
+            });
+        }
+
+        function showOrderModal(order) {
+            const statusText = ['Chờ xử lý', 'Đang giao', 'Đã giao', 'Đã hủy', 'Hoàn trả'];
+            const date = new Date(order.createdAt || order.orderDate);
+            const formattedDate = date.toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            let itemsHTML = '';
+            order.orderDetails.forEach(item => {
+                itemsHTML += `
+                    <div class="order-item">
+                        <img src="${item.thumbnail || 'https://via.placeholder.com/60'}" alt="${item.productName}">
+                        <div class="order-item-info">
+                            <div class="order-item-name">${item.productName}</div>
+                            <div class="order-item-variant">
+                                ${item.color ? `<span>Màu: <span style="display:inline-block; width:10px; height:10px; background:${item.color}; border-radius:50%; border:1px solid #ddd;"></span></span>` : ''}
+                                ${item.size ? ` | Size: ${item.size}` : ''}
+                            </div>
+                        </div>
+                        <div class="order-item-price">
+                            <div class="price">${item.unitPrice.toLocaleString()} đ</div>
+                            <div class="qty">x${item.quantity}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('modalBody').innerHTML = `
+                <div class="order-detail-header">
+                    <h2>📦 Chi tiết đơn hàng</h2>
+                    <p><strong>Mã đơn:</strong> ${order.orderCode}</p>
+                    <p><strong>Ngày đặt:</strong> ${formattedDate}</p>
+                </div>
+
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <label>Người nhận</label>
+                        <span>${order.shippingName || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Số điện thoại</label>
+                        <span>${order.shippingPhone || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Địa chỉ giao hàng</label>
+                        <span>${order.shippingAddress || 'N/A'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Phương thức thanh toán</label>
+                        <span>${order.paymentMethod || 'COD'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Trạng thái đơn hàng</label>
+                        <span>${statusText[order.status] || 'Chờ xử lý'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <label>Trạng thái thanh toán</label>
+                        <span>${order.paymentStatus === 'Paid' ? 'Đã thanh toán' : 'Chưa thanh toán'}</span>
+                    </div>
+                </div>
+
+                <div class="order-items-title">Sản phẩm (${order.orderDetails.length})</div>
+                <div class="order-items-list">
+                    ${itemsHTML}
+                </div>
+
+                <div class="order-total">
+                    <div>
+                        <div class="order-total-row">
+                            <span>Tạm tính:</span>
+                            <span>${(order.totalAmount || 0).toLocaleString()} đ</span>
+                        </div>
+                        <div class="order-total-row">
+                            <span>Giảm giá:</span>
+                            <span>-${(order.discountAmount || 0).toLocaleString()} đ</span>
+                        </div>
+                        <div class="order-total-row">
+                            <span>Phí vận chuyển:</span>
+                            <span>${(order.shippingFee || 0).toLocaleString()} đ</span>
+                        </div>
+                        <div class="order-total-row final">
+                            <span>Tổng cộng:</span>
+                            <span>${(order.finalAmount || 0).toLocaleString()} đ</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('orderModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').classList.remove('active');
+        }
+
+        document.getElementById('orderModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>

@@ -114,7 +114,9 @@ namespace FashionEcommerce.Controllers
                         Snapshot_Sku = item.Sku,
                         Snapshot_Thumbnail = item.Thumbnail,
                         Quantity = item.Quantity,
-                        UnitPrice = item.UnitPrice
+                        UnitPrice = item.UnitPrice,
+                        Color = item.Color,
+                        Size = item.Size
                     };
                     _context.OrderDetails.Add(orderDetail);
                 }
@@ -216,7 +218,9 @@ namespace FashionEcommerce.Controllers
                     Snapshot_Sku = d.Snapshot_Sku,
                     Snapshot_Thumbnail = d.Snapshot_Thumbnail,
                     Quantity = d.Quantity,
-                    UnitPrice = d.UnitPrice
+                    UnitPrice = d.UnitPrice,
+                    Color = d.Color,
+                    Size = d.Size
                 }).ToList()
             };
 

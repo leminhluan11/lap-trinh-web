@@ -80,6 +80,16 @@
             font-size: 16px;
         }
 
+        .cart-item-variant {
+            font-size: 13px;
+            color: #666;
+            margin: 4px 0;
+        }
+
+        .variant-color, .variant-size {
+            margin-right: 8px;
+        }
+
         .cart-item-quantity {
             display: flex;
             align-items: center;
@@ -247,6 +257,10 @@
                         <img src="${item.thumbnail || 'https://via.placeholder.com/100'}" alt="${item.name}">
                         <div class="cart-item-info">
                             <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-variant">
+                                ${item.color ? `<span class="variant-color">Màu: <span class="color-preview" style="background:${item.color}; width:12px; height:12px; display:inline-block; border-radius:50%; border:1px solid #ddd; vertical-align:middle;"></span></span>` : ''}
+                                ${item.size ? `<span class="variant-size"> | Size: ${item.size}</span>` : ''}
+                            </div>
                             <div class="cart-item-price">${item.price.toLocaleString()} đ</div>
                         </div>
                         <div class="cart-item-quantity">

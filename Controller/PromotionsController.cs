@@ -21,7 +21,6 @@ namespace FashionEcommerce.Controllers
         /// <summary>
         /// GET /api/admin/promotions - Danh sách chương trình khuyến mãi
         /// </summary>
-        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PromotionSummaryDto>>> GetPromotions()
         {

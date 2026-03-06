@@ -168,6 +168,12 @@
             color: #666;
         }
 
+        .summary-item-variant {
+            font-size: 11px;
+            color: #888;
+            margin-top: 2px;
+        }
+
         .summary-item-price {
             font-size: 14px;
             font-weight: bold;
@@ -316,6 +322,10 @@
                         <img src="${item.thumbnail || 'https://via.placeholder.com/50'}" alt="${item.name}">
                         <div class="summary-item-info">
                             <div class="summary-item-name">${item.name}</div>
+                            <div class="summary-item-variant">
+                                ${item.color ? `<span class="variant-color">Màu: <span class="color-preview" style="background:${item.color}; width:10px; height:10px; display:inline-block; border-radius:50%; border:1px solid #ddd; vertical-align:middle;"></span></span>` : ''}
+                                ${item.size ? `<span class="variant-size"> | Size: ${item.size}</span>` : ''}
+                            </div>
                             <div class="summary-item-qty">x${item.quantity}</div>
                         </div>
                         <div class="summary-item-price">${itemTotal.toLocaleString()} đ</div>
@@ -469,7 +479,9 @@
                     sku: 'SKU' + item.id,
                     thumbnail: item.thumbnail,
                     quantity: item.quantity,
-                    unitPrice: item.price
+                    unitPrice: item.price,
+                    color: item.color || null,
+                    size: item.size || null
                 }))
             };
 
